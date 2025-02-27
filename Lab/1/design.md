@@ -54,15 +54,69 @@ UML结构图如下
 
 ### TaxBracket 类
 
-- **功能**：表示一个税率区间。
-- **属性**：
-  - `lowerBound`：税率区间的下限；
-  - `upperBound`：税率区间的上限（当值为 `Double.MAX_VALUE` 时表示无上限）；
-  - `rate`：对应税率（例如 0.05 表示 5%）。
-- **主要方法**：
-  - 构造器：用于初始化税率区间；
-  - Getter/Setter：获取和设置各属性值；
-  - `toString()`：格式化输出税率区间信息，支持无上限的特殊显示。
+**功能**：表示一个税率区间。
+
+**属性**：
+`lowerBound`：税率区间的下限；
+
+`upperBound`：税率区间的上限（当值为 `Double.MAX_VALUE` 时表示无上限）；
+
+`rate`：对应税率（例如 0.05 表示 5%）。
+
+```java
+private double lowerBound; // 下限
+private double upperBound; // 上限
+private double rate;       // 税率
+```
+
+**主要方法**：
+
+构造器：用于初始化税率区间；
+```java
+/**
+ * 构造一个新的税率级别
+ * @param lowerBound 收入下限
+ * @param upperBound 收入上限
+ * @param rate 适用税率（例如0.05表示5%）
+ */
+public TaxBracket(double lowerBound, double upperBound, double rate) {
+    this.lowerBound = lowerBound;
+    this.upperBound = upperBound;
+    this.rate = rate;
+}
+```
+
+Getter/Setter：获取和设置各属性值；
+```java
+/**
+ * 获取收入下限
+ * @return 下限值
+ */
+public double getLowerBound() {
+    return lowerBound;
+}
+
+/**
+ * 设置收入下限
+ * @param lowerBound 新的下限值
+ */
+public void setLowerBound(double lowerBound) {
+    this.lowerBound = lowerBound;
+}
+...
+```
+
+`toString()`：格式化输出税率区间信息，支持无上限的特殊显示。
+```java
+@Override
+public String toString() {
+    String upperBoundStr = upperBound == Double.MAX_VALUE ? "无上限" : String.valueOf(upperBound);
+    return String.format("区间 [%.2f, %s], 税率 %.1f%%",
+                      lowerBound,
+                      upperBoundStr,
+                      rate * 100);
+}
+```
 
 ### TaxCalculator 类
 
