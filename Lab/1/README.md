@@ -8,6 +8,8 @@
 
 - **姓名**：胡瑞康
 - **学号**：22336087
+- **邮箱**：hurk3@mail2.sysu.edu.cn
+- **电话**: 13265249840
 
 ## 功能特性
 
@@ -22,28 +24,6 @@
 - **Java**: 版本 23.0.2
 - **Maven**: 项目构建与依赖管理工具
 - **JUnit 5**: 单元测试框架
-
-## 项目结构
-
-```bash
-personal-tax-calculator/
-├── src/
-│   ├── main/
-│   │   └── java/
-│   │       └── com/
-│   │           └── tax/
-│   │               ├── PersonalTaxApp.java    # 主应用程序入口
-│   │               ├── TaxCalculator.java     # 税率计算器逻辑
-│   │               └── TaxBracket.java        # 税率区间实体类
-│   └── test/
-│       └── java/
-│           └── com/
-│               └── tax/
-│                   ├── TaxCalculatorTest.java # TaxCalculator单元测试
-│                   └── TaxBracketTest.java    # TaxBracket单元测试
-├── pom.xml                                    # Maven配置文件
-└── README.md                                  # 项目说明文档
-```
 
 ## 编译与运行
 

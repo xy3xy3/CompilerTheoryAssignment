@@ -21,6 +21,29 @@
 
 此外，项目使用 Maven 进行构建和依赖管理，并利用 JUnit 5 完成了单元测试，确保各模块功能正确。
 
+文件组织结构图如下
+
+```bash
+personal-tax-calculator/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       └── com/
+│   │           └── tax/
+│   │               ├── PersonalTaxApp.java    # 主应用程序入口
+│   │               ├── TaxCalculator.java     # 税率计算器逻辑
+│   │               └── TaxBracket.java        # 税率区间实体类
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── tax/
+│                   ├── TaxCalculatorTest.java # TaxCalculator单元测试
+│                   └── TaxBracketTest.java    # TaxBracket单元测试
+├── pom.xml                                    # Maven配置文件
+└── README.md                                  # 项目说明文档
+```
+
+
 UML结构图如下
 
 ![](./img/uml.png)
@@ -112,22 +135,6 @@ UML结构图如下
   - 修改起征点及税率后计算结果的准确性；
   - 对 `TaxBracket` 的构造器、getter/setter 以及 `toString()` 方法进行验证。
 - **回归测试**：通过 Maven 命令 `mvn test` 可方便地运行所有测试用例，确保修改后不影响既有功能。
-
----
-
-## 关键设计决策
-
-- **面向对象设计**
-  采用面向对象方法对税率区间（TaxBracket）、税款计算（TaxCalculator）及用户交互（PersonalTaxApp）进行划分，确保每个模块独立且职责单一。
-
-- **命令行界面选择**
-  考虑到实验要求及项目简单性，采用命令行界面实现用户交互，后续可扩展为 GUI 或 Web 应用。
-
-- **灵活的税率配置**
-  将税率表设计为可动态添加、修改的结构（List<TaxBracket>），方便应对税法变化及用户自定义需求。
-
-- **异常处理**
-  对用户输入进行严格验证（如输入格式检查），通过捕获 `NumberFormatException` 等异常确保程序健壮性。
 
 ---
 
