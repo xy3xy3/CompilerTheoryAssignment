@@ -11,12 +11,13 @@
 
 ## 技术栈
 
-- Java 11
+- Java 23.0.2
 - Maven
+- JUnit 5（单元测试）
 
 ## 如何运行
 
-1. 确保安装了JDK 11或更高版本以及Maven
+1. 确保安装了JDK 23.0.2以及Maven
 2. 克隆或下载项目代码
 3. 进入项目根目录
 4. 执行以下命令编译和运行项目：
@@ -25,6 +26,31 @@
 mvn clean package
 java -jar target/personal-tax-calculator-1.0-SNAPSHOT.jar
 ```
+
+## 如何运行测试
+
+项目包含了单元测试，可以通过以下命令运行：
+
+```bash
+mvn test
+```
+
+查看测试报告:
+
+```bash
+mvn surefire-report:report
+```
+
+测试报告将生成在 `./target/reports/surefire.html`。
+
+## 测试覆盖的功能
+
+- 验证低于起征点的工资不缴税
+- 各个税率级别的税款计算
+- 跨越多个税率级别的情况
+- 高收入的税款计算
+- 修改起征点后的税款计算
+- 税率级别的基本功能
 
 ## 项目结构
 
