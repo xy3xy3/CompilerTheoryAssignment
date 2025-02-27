@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "d:\\ProgramData\\java\\package\\hamcrest-core-1.3.jar",
+        "d:\\ProgramData\\java\\package\\junit-4.13.2.jar"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
+}
