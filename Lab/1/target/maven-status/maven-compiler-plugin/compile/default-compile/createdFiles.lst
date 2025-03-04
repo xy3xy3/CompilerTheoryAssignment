@@ -1,3 +1,5 @@
-com\tax\TaxBracket.class
+com\tax\model\TaxCalculator.class
+com\tax\model\TaxBracket.class
+com\tax\controller\TaxController.class
 com\tax\PersonalTaxApp.class
-com\tax\TaxCalculator.class
+com\tax\view\TaxView.class
