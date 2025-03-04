@@ -19,6 +19,13 @@ public class TaxController {
     public TaxView getView() {
         return view;
     }
+
+    // 依赖注入构造函数，便于单元测试注入模拟对象
+    public TaxController(TaxCalculator calculator, TaxView view) {
+        this.calculator = calculator;
+        this.view = view;
+    }
+
     public TaxController() {
         // 初始化税率计算器，默认起征点为 1600 元
         calculator = new TaxCalculator(1600);
@@ -158,7 +165,8 @@ public class TaxController {
     protected double getValidUpperBound(TaxBracket bracket, double newLower, int level, double higherLevelLowerBound) {
         double newUpper;
         while (true) {
-            String currentUpper = bracket.getUpperBound() == Double.MAX_VALUE ? "无上限" : String.valueOf(bracket.getUpperBound());
+            String currentUpper = bracket.getUpperBound() == Double.MAX_VALUE ? "无上限"
+                    : String.valueOf(bracket.getUpperBound());
             view.displayMessage("请输入新的上限（输入 -1 表示无限制，原值 " + currentUpper + "）：");
             newUpper = Double.parseDouble(view.getInput());
             if (newUpper == -1) {
