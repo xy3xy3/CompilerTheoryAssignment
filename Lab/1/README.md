@@ -64,13 +64,104 @@ run.bat
 
 ## 测试说明
 
-项目中包含完整的单元测试，测试覆盖以下功能：
+项目中包含对模型和控制器的单元测试，具体如下：
 
-- 工资低于起征点时不缴税
-- 各税率级别税额的计算正确性
-- 跨级别税率计算（如多个税率区间累加计算）
-- 高收入情形下各级税率计算验证
-- 修改起征点及税率区间后计算结果的正确性
+### **`TaxBracketTest`**
+#### 功能：
+- 测试 `TaxBracket` 类的 `toString()` 方法是否正确生成税率区间的字符串表示。
+- 验证有限和无限上限的税率区间格式化是否符合预期。
+
+#### 覆盖点：
+- **有限上限**：测试普通税率区间 `[500, 2000]` 的字符串表示。
+- **无限上限**：测试无限上限（`Double.MAX_VALUE`）的税率区间 `[20000, 无上限]` 的字符串表示。
+
+#### 示例测试用例：
+```java
+@Test
+public void testToString_NormalUpperBound() {
+    TaxBracket bracket = new TaxBracket(500, 2000, 0.10);
+    String expected = "区间 [500.00, 2000.00], 税率 10.0%";
+    assertEquals(expected, bracket.toString());
+}
+
+@Test
+public void testToString_InfiniteUpperBound() {
+    TaxBracket bracket = new TaxBracket(20000, Double.MAX_VALUE, 0.25);
+    String expected = "区间 [20000.00, 无上限], 税率 25.0%";
+    assertEquals(expected, bracket.toString());
+}
+```
+
+---
+
+### **`TaxCalculatorTest`**
+#### 功能：
+- 测试 `TaxCalculator` 类的 `calculateTax()` 方法是否正确计算应缴税款。
+- 验证工资低于起征点时税款为零的情况。
+- 验证多级税率下的税款计算逻辑是否正确。
+
+#### 覆盖点：
+- **工资低于起征点**：验证当工资小于或等于起征点时，应缴税款为零。
+- **多级税率计算**：验证根据税率级别逐级计算税款的逻辑是否正确。
+
+#### 示例测试用例：
+```java
+@Test
+public void testCalculateTax_NoTaxWhenSalaryBelowThreshold() {
+    TaxCalculator calculator = new TaxCalculator(1600);
+    calculator.addBracket(new TaxBracket(0, 500, 0.05));
+    double salary = 1500;
+    double tax = calculator.calculateTax(salary);
+    assertEquals(0, tax);
+}
+
+@Test
+public void testCalculateTax_WithTax() {
+    TaxCalculator calculator = new TaxCalculator(1600);
+    calculator.addBracket(new TaxBracket(0, 500, 0.05));
+    calculator.addBracket(new TaxBracket(500, 2000, 0.10));
+    calculator.addBracket(new TaxBracket(2000, 5000, 0.15));
+    calculator.addBracket(new TaxBracket(5000, 20000, 0.20));
+    calculator.addBracket(new TaxBracket(20000, Double.MAX_VALUE, 0.25));
+
+    double salary = 4000;
+    double tax = calculator.calculateTax(salary);
+    assertEquals(235, tax, 0.001);
+}
+```
+
+---
+
+### **`TaxControllerTest`**
+#### 功能：
+- 测试 `TaxController` 类的 `calculateTaxForSalary()` 方法是否正确调用视图类显示税额计算结果。
+- 使用 Mock 对象模拟用户输入和输出行为。
+
+#### 覆盖点：
+- **模拟用户输入**：通过 `Mockito` 模拟用户输入工资数据。
+- **验证输出**：验证视图类是否正确显示计算结果。
+
+#### 示例测试用例：
+```java
+@Test
+public void testCalculateTaxForSalary() {
+    TaxView mockView = mock(TaxView.class);
+    when(mockView.getInput()).thenReturn("4000");
+
+    TaxCalculator calculator = new TaxCalculator(1600);
+    calculator.addBracket(new TaxBracket(0, 500, 0.05));
+    calculator.addBracket(new TaxBracket(500, 2000, 0.10));
+    calculator.addBracket(new TaxBracket(2000, 5000, 0.15));
+    calculator.addBracket(new TaxBracket(5000, 20000, 0.20));
+    calculator.addBracket(new TaxBracket(20000, Double.MAX_VALUE, 0.25));
+
+    TaxController controller = new TaxController(calculator, mockView);
+    controller.calculateTaxForSalary();
+
+    verify(mockView, atLeastOnce()).displayTaxCalculation(anyDouble(), eq(4000.0));
+}
+```
+
 
 ### 运行测试
 
@@ -80,16 +171,7 @@ run.bat
 mvn test
 ```
 
-测试运行结束后，可生成测试报告：
-
-```bash
-mvn surefire-report:report
-```
-
-生成的测试报告存放在 `./target/reports/surefire.html` 中。
-
 ![测试截图](./img/test.png)
-![报告截图](./img/report.png)
 
 ## 收获体会
 
