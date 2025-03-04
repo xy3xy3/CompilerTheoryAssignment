@@ -1,7 +1,7 @@
 # 个人所得税计算器
 
 
-## 个人信息
+## 作者信息
 
 - **姓名**：胡瑞康
 - **学号**：22336087
@@ -15,11 +15,25 @@
 
 ## 功能特性
 
-- **级进税率计算**：根据税率区间（TaxBracket）实现阶梯式税率计算。
-- **自定义设置**：支持调整起征点（TaxCalculator.threshold）和修改各税率级别。
-- **交互式命令行界面**：通过简单的菜单系统，用户可以输入工资、查看当前税率表、修改税率级别等。
-- **实时计算与反馈**：输入工资后可即时显示应缴税额及税后收入。
-- **单元测试支持**：使用 JUnit 5 完成了 TaxCalculator 和 TaxBracket 的单元测试，确保程序的正确性与健壮性。
+- **级进税率计算**：根据税率区间（TaxBracket）实现阶梯式税率计算，确保税款计算的准确性和灵活性。
+- **自定义设置**：
+  - 支持动态调整起征点（TaxCalculator.threshold），适应不同地区的税收政策。
+  - 允许用户修改税率区间（TaxBracket），包括上下限和税率值，满足未来税法变化的需求。
+- **交互式命令行界面**：
+  - 提供简洁的菜单系统，用户可以通过输入数字选择操作。
+  - 支持输入工资、查看当前税率表、修改税率级别等功能，操作直观易用。
+- **实时计算与反馈**：
+  - 输入工资后可即时显示应缴税额及税后收入，计算结果精确到小数点后两位。
+  - 提供详细的税率表展示，帮助用户理解税款计算过程。
+- **输入验证与错误处理**：
+  - 对用户输入进行严格验证，确保输入格式正确。
+  - 提供友好的错误提示，避免程序因非法输入而崩溃。
+- **单元测试支持**：
+  - 使用 JUnit 5 完成了 TaxCalculator 和 TaxBracket 的单元测试，确保核心逻辑的正确性与健壮性。
+  - 通过 Mockito 模拟用户输入，测试控制层的交互逻辑。
+- **扩展性与维护性**：
+  - 采用 MVC 架构设计，实现高内聚低耦合，便于未来功能扩展和维护。
+  - 通过依赖注入支持单元测试，提升代码的可测试性。
 
 ## 技术栈
 
@@ -62,107 +76,6 @@ run.bat
 ```
 ![一键运行](./img/bat.png)
 
-## 测试说明
-
-项目中包含对模型和控制器的单元测试，具体如下：
-
-### **`TaxBracketTest`**
-#### 功能：
-- 测试 `TaxBracket` 类的 `toString()` 方法是否正确生成税率区间的字符串表示。
-- 验证有限和无限上限的税率区间格式化是否符合预期。
-
-#### 覆盖点：
-- **有限上限**：测试普通税率区间 `[500, 2000]` 的字符串表示。
-- **无限上限**：测试无限上限（`Double.MAX_VALUE`）的税率区间 `[20000, 无上限]` 的字符串表示。
-
-#### 示例测试用例：
-```java
-@Test
-public void testToString_NormalUpperBound() {
-    TaxBracket bracket = new TaxBracket(500, 2000, 0.10);
-    String expected = "区间 [500.00, 2000.00], 税率 10.0%";
-    assertEquals(expected, bracket.toString());
-}
-
-@Test
-public void testToString_InfiniteUpperBound() {
-    TaxBracket bracket = new TaxBracket(20000, Double.MAX_VALUE, 0.25);
-    String expected = "区间 [20000.00, 无上限], 税率 25.0%";
-    assertEquals(expected, bracket.toString());
-}
-```
-
----
-
-### **`TaxCalculatorTest`**
-#### 功能：
-- 测试 `TaxCalculator` 类的 `calculateTax()` 方法是否正确计算应缴税款。
-- 验证工资低于起征点时税款为零的情况。
-- 验证多级税率下的税款计算逻辑是否正确。
-
-#### 覆盖点：
-- **工资低于起征点**：验证当工资小于或等于起征点时，应缴税款为零。
-- **多级税率计算**：验证根据税率级别逐级计算税款的逻辑是否正确。
-
-#### 示例测试用例：
-```java
-@Test
-public void testCalculateTax_NoTaxWhenSalaryBelowThreshold() {
-    TaxCalculator calculator = new TaxCalculator(1600);
-    calculator.addBracket(new TaxBracket(0, 500, 0.05));
-    double salary = 1500;
-    double tax = calculator.calculateTax(salary);
-    assertEquals(0, tax);
-}
-
-@Test
-public void testCalculateTax_WithTax() {
-    TaxCalculator calculator = new TaxCalculator(1600);
-    calculator.addBracket(new TaxBracket(0, 500, 0.05));
-    calculator.addBracket(new TaxBracket(500, 2000, 0.10));
-    calculator.addBracket(new TaxBracket(2000, 5000, 0.15));
-    calculator.addBracket(new TaxBracket(5000, 20000, 0.20));
-    calculator.addBracket(new TaxBracket(20000, Double.MAX_VALUE, 0.25));
-
-    double salary = 4000;
-    double tax = calculator.calculateTax(salary);
-    assertEquals(235, tax, 0.001);
-}
-```
-
----
-
-### **`TaxControllerTest`**
-#### 功能：
-- 测试 `TaxController` 类的 `calculateTaxForSalary()` 方法是否正确调用视图类显示税额计算结果。
-- 使用 Mock 对象模拟用户输入和输出行为。
-
-#### 覆盖点：
-- **模拟用户输入**：通过 `Mockito` 模拟用户输入工资数据。
-- **验证输出**：验证视图类是否正确显示计算结果。
-
-#### 示例测试用例：
-```java
-@Test
-public void testCalculateTaxForSalary() {
-    TaxView mockView = mock(TaxView.class);
-    when(mockView.getInput()).thenReturn("4000");
-
-    TaxCalculator calculator = new TaxCalculator(1600);
-    calculator.addBracket(new TaxBracket(0, 500, 0.05));
-    calculator.addBracket(new TaxBracket(500, 2000, 0.10));
-    calculator.addBracket(new TaxBracket(2000, 5000, 0.15));
-    calculator.addBracket(new TaxBracket(5000, 20000, 0.20));
-    calculator.addBracket(new TaxBracket(20000, Double.MAX_VALUE, 0.25));
-
-    TaxController controller = new TaxController(calculator, mockView);
-    controller.calculateTaxForSalary();
-
-    verify(mockView, atLeastOnce()).displayTaxCalculation(anyDouble(), eq(4000.0));
-}
-```
-
-
 ### 运行测试
 
 使用 Maven 运行测试用例，执行：
@@ -175,6 +88,48 @@ mvn test
 
 ## 收获体会
 
-通过本实验，我加深了对 Java 面向对象编程的理解，体会到良好设计与编码规范的重要性。
+通过本次个人所得税计算器的开发，我对 MVC 架构 和 Java 编程 有了更深刻的理解和体会。
 
-同时，在实际编程过程中学习了如何使用 JUnit 进行单元测试，并掌握了 Maven 的基本使用方法，对构建和管理 Java 项目有了更深入的认识。
+MVC（Model-View-Controller）是一种经典的设计模式，通过将应用程序分为模型层、视图层和控制层，实现了职责分离和代码复用。
+
+在本次项目中，我体会到了 MVC 架构的以下优势：
+
+- 职责清晰：
+
+    模型层（Model）：负责核心业务逻辑（如税款计算）和数据管理（如税率区间）。通过封装税率区间和计算逻辑，模型层具有高度的独立性和可复用性。
+
+    视图层（View）：负责与用户的交互，包括输入捕获和结果展示。视图层的设计使得用户界面与业务逻辑完全分离，便于未来更换界面（如从命令行切换到图形界面）。
+
+    控制层（Controller）：作为模型和视图的桥梁，负责协调用户请求和业务逻辑。控制层的设计使得业务流程更加清晰，便于扩展和维护。
+
+- 高内聚低耦合：
+
+    通过分层设计，各层之间的依赖关系更加清晰，降低了模块之间的耦合度。
+
+    例如，税率计算逻辑（模型层）与用户界面（视图层）完全分离，修改税率计算逻辑不会影响用户界面的实现。
+
+- 易于测试：
+
+    由于各层职责明确，单元测试可以针对每一层单独进行。例如，模型层的 TaxCalculator 可以通过 JUnit 测试其计算逻辑，而视图层可以通过 Mockito 模拟用户输入进行测试。
+
+    依赖注入的设计使得控制层的测试更加灵活，可以通过注入模拟对象来测试控制逻辑。
+
+本次项目也是我第一次编写较大的 Java 程序，此前只在打CTF比赛时遇到 Java Web 的题目时专门查过很多资料。下面是我对 Java 编程的体会：
+
+- 面向对象编程的优势：
+
+    Java 是一门纯粹的面向对象语言，通过类、对象、继承、封装等特性，能够很好地实现代码的模块化和复用。
+
+    例如，TaxBracket 类封装了税率区间的上下限和税率，并通过 toString() 方法提供了格式化输出功能，体现了封装的思想。
+
+- 类型安全与健壮性：
+
+    Java 的强类型特性使得代码更加健壮，能够在编译期发现许多潜在的错误。
+
+    例如，在税款计算过程中，通过 double 类型确保数值计算的精确性，并通过异常处理机制（如 NumberFormatException）避免非法输入导致的程序崩溃。
+
+- 工具链的完善：
+
+    Java 生态提供了丰富的工具链支持，如 Maven 用于项目构建和依赖管理，JUnit 用于单元测试，Mockito 用于模拟对象测试。
+
+    这些工具极大地提升了开发效率和代码质量。

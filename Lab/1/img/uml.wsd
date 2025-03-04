@@ -1,0 +1,68 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "Model" {
+    class TaxBracket {
+        - lowerBound: double
+        - upperBound: double
+        - rate: double
+        + TaxBracket(lowerBound: double, upperBound: double, rate: double)
+        + getLowerBound(): double
+        + setLowerBound(lowerBound: double): void
+        + getUpperBound(): double
+        + setUpperBound(upperBound: double): void
+        + getRate(): double
+        + setRate(rate: double): void
+        + toString(): String
+    }
+
+    class TaxCalculator {
+        - threshold: double
+        - brackets: List<TaxBracket>
+        + TaxCalculator(threshold: double)
+        + addBracket(bracket: TaxBracket): void
+        + calculateTax(salary: double): double
+        + getBrackets(): List<TaxBracket>
+        + setThreshold(threshold: double): void
+        + getThreshold(): double
+    }
+}
+
+package "View" {
+    class TaxView {
+        - scanner: Scanner
+        + TaxView()
+        + displayMenu(): void
+        + getInput(): String
+        + displayMessage(message: String): void
+        + displayTaxBrackets(threshold: double, brackets: List<TaxBracket>): void
+        + displayTaxCalculation(tax: double, salary: double): void
+        + close(): void
+    }
+}
+
+package "Controller" {
+    class TaxController {
+        - calculator: TaxCalculator
+        - view: TaxView
+        + TaxController()
+        + TaxController(calculator: TaxCalculator, view: TaxView)
+        + run(): void
+        + calculateTaxForSalary(): void
+        + setNewThreshold(): void
+        + modifyTaxBracket(): void
+        + getCalculator(): TaxCalculator
+        + getView(): TaxView
+    }
+}
+
+class PersonalTaxApp {
+    + main(args: String[]): void
+}
+
+PersonalTaxApp --> TaxController : 创建并调用 run()
+TaxController --> TaxCalculator : 使用模型进行计算
+TaxController --> TaxView : 调用视图显示和输入
+TaxCalculator "1" *-- "*" TaxBracket : 包含税率级别
+
+@enduml
