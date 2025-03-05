@@ -6,16 +6,27 @@ import java.util.Scanner;
 
 /**
  * 视图类，负责与用户进行交互（输入/输出）
+ *
+ * <p>该类提供了显示菜单、接收用户输入、展示税率表以及显示计算结果等功能，
+ * 用于与用户进行命令行交互。</p>
+ *
+ * @author xy3
+ * @version 1.0
  */
 public class TaxView {
     private Scanner scanner;
 
+    /**
+     * 构造函数，初始化 Scanner 对象用于获取用户输入
+     */
     public TaxView() {
         scanner = new Scanner(System.in);
     }
 
     /**
      * 显示主菜单
+     *
+     * <p>展示计算器支持的各项操作供用户选择。</p>
      */
     public void displayMenu() {
         System.out.println("\n========== 个人所得税计算器 ==========");
@@ -29,6 +40,7 @@ public class TaxView {
 
     /**
      * 获取用户输入
+     *
      * @return 用户输入的字符串
      */
     public String getInput() {
@@ -37,7 +49,8 @@ public class TaxView {
 
     /**
      * 显示提示信息
-     * @param message 提示信息
+     *
+     * @param message 要显示的提示信息
      */
     public void displayMessage(String message) {
         System.out.println(message);
@@ -45,8 +58,11 @@ public class TaxView {
 
     /**
      * 显示税率表
+     *
+     * <p>输出当前起征点及所有税率级别的详细信息。</p>
+     *
      * @param threshold 起征点
-     * @param brackets 税率级别列表
+     * @param brackets  税率级别列表
      */
     public void displayTaxBrackets(double threshold, List<TaxBracket> brackets) {
         System.out.println("\n当前个人所得税税率表（起征点：" + threshold + " 元）:");
@@ -68,7 +84,8 @@ public class TaxView {
 
     /**
      * 显示税额计算结果
-     * @param tax 应缴税款
+     *
+     * @param tax    应缴税款
      * @param salary 工资收入
      */
     public void displayTaxCalculation(double tax, double salary) {
@@ -76,6 +93,9 @@ public class TaxView {
         System.out.printf("税后实际收入：%.2f 元\n", salary - tax);
     }
 
+    /**
+     * 关闭视图，释放资源
+     */
     public void close() {
         scanner.close();
     }

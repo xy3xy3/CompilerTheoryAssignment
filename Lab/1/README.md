@@ -86,6 +86,19 @@ mvn test
 
 ![测试截图](./img/test.png)
 
+### JavaDoc 生成
+
+运行
+```shell
+javadoc -d docs -sourcepath src/main/java -subpackages com.tax
+```
+即可在docs文件夹下生成JavaDoc文档，运行LiveServer插件即可打开网页查看。
+
+![JavaDoc文档](./img/javadoc.png)
+
+
+![JavaDoc文档](./img/javadoc2.png)
+
 ## 收获体会
 
 通过本次个人所得税计算器的开发，我对 MVC 架构 和 Java 编程 有了更深刻的理解和体会。

@@ -6,26 +6,60 @@ import com.tax.view.TaxView;
 import java.util.List;
 
 /**
- * 控制器类，协调视图和模型之间的交互
+ * 个人所得税计算器控制器类
+ *
+ * <p>该类负责协调视图层和模型层之间的交互，处理核心业务逻辑。</p>
+ *
+ * <p>主要职责包括：</p>
+ * <ul>
+ *   <li>初始化税率计算器和视图</li>
+ *   <li>处理用户输入并调用相应的业务逻辑</li>
+ *   <li>管理税率级别的修改和验证</li>
+ * </ul>
+ *
+ *
+ * @author xy3
+ * @version 1.0
  */
 public class TaxController {
     private TaxCalculator calculator;
     private TaxView view;
 
+    /**
+     * 获取税率计算器实例
+     *
+     * @return 当前使用的税率计算器实例
+     */
     public TaxCalculator getCalculator() {
         return calculator;
     }
 
+    /**
+     * 获取视图实例
+     *
+     * @return 当前使用的视图实例
+     */
     public TaxView getView() {
         return view;
     }
 
-    // 依赖注入构造函数，便于单元测试注入模拟对象
+    /**
+     * 构造函数（依赖注入）
+     *
+     * @param calculator 税率计算器实例
+     * @param view 视图实例
+     */
     public TaxController(TaxCalculator calculator, TaxView view) {
         this.calculator = calculator;
         this.view = view;
     }
 
+    /**
+     * 默认构造函数
+     *
+     * <p>初始化默认的税率计算器和视图实例，设置默认起征点为1600元，
+     * 并添加5个默认的税率级别。</p>
+     */
     public TaxController() {
         // 初始化税率计算器，默认起征点为 1600 元
         calculator = new TaxCalculator(1600);
@@ -72,7 +106,12 @@ public class TaxController {
         view.close();
     }
 
-    // 计算工资税额
+    /**
+     * 计算工资税额
+     *
+     * <p>提示用户输入月工资薪金总额，调用税率计算器计算税额，
+     * 并通过视图展示计算结果。</p>
+     */
     protected void calculateTaxForSalary() {
         try {
             view.displayMessage("请输入月工资薪金总额：");
@@ -84,7 +123,11 @@ public class TaxController {
         }
     }
 
-    // 设置新的起征点
+    /**
+     * 设置新的起征点
+     *
+     * <p>提示用户输入新的起征点值，并更新税率计算器中的起征点设置。</p>
+     */
     protected void setNewThreshold() {
         try {
             view.displayMessage("请输入新的起征点：");
@@ -96,7 +139,12 @@ public class TaxController {
         }
     }
 
-    // 修改税率表
+    /**
+     * 修改税率级别
+     *
+     * <p>展示当前所有税率级别，提示用户选择需要修改的级别，
+     * 并依次获取并验证新的下限、上限和税率，最后更新相应税率级别。</p>
+     */
     protected void modifyTaxBracket() {
         view.displayTaxBrackets(calculator.getThreshold(), calculator.getBrackets());
         view.displayMessage("请输入要修改的税率级别（数字）：");
@@ -142,7 +190,16 @@ public class TaxController {
         }
     }
 
-    // 获取有效的下限值
+    /**
+     * 获取有效的下限值
+     *
+     * <p>提示用户输入新的下限值，并确保该值大于低级别的上限且小于高级别的下限。</p>
+     *
+     * @param bracket 当前税率级别对象
+     * @param lowerLevelUpperBound 低级别的上限
+     * @param higherLevelLowerBound 高级别的下限
+     * @return 验证通过的新的下限值
+     */
     protected double getValidLowerBound(TaxBracket bracket, double lowerLevelUpperBound, double higherLevelLowerBound) {
         double newLower;
         while (true) {
@@ -161,7 +218,17 @@ public class TaxController {
         return newLower;
     }
 
-    // 获取有效的上限值
+    /**
+     * 获取有效的上限值
+     *
+     * <p>提示用户输入新的上限值，支持输入 -1 表示无限制，并确保上限值大于下限且与相邻级别匹配。</p>
+     *
+     * @param bracket 当前税率级别对象
+     * @param newLower 已验证的新的下限值
+     * @param level 当前级别索引（从1开始计数）
+     * @param higherLevelLowerBound 高级别的下限
+     * @return 验证通过的新的上限值
+     */
     protected double getValidUpperBound(TaxBracket bracket, double newLower, int level, double higherLevelLowerBound) {
         double newUpper;
         while (true) {
@@ -185,7 +252,15 @@ public class TaxController {
         return newUpper;
     }
 
-    // 更新下一级别的下限（如果需要）
+    /**
+     * 更新下一级别的下限（如果需要）
+     *
+     * <p>当当前级别的上限发生改变时，自动更新下一级别的下限以保持税率级别间的衔接。</p>
+     *
+     * @param level 当前级别（从1开始计数）
+     * @param bracket 当前税率级别对象
+     * @param newUpper 当前级别修改后的新的上限值
+     */
     protected void updateNextBracketIfNeeded(int level, TaxBracket bracket, double newUpper) {
         List<TaxBracket> brackets = calculator.getBrackets();
         if (level < brackets.size() && newUpper != bracket.getUpperBound()) {
@@ -195,7 +270,14 @@ public class TaxController {
         }
     }
 
-    // 获取新的税率
+    /**
+     * 获取新的税率
+     *
+     * <p>提示用户输入新的税率，期望输入格式为小数形式（例如 0.05 表示 5%）。</p>
+     *
+     * @param bracket 当前税率级别对象
+     * @return 用户输入的新的税率
+     */
     protected double getNewTaxRate(TaxBracket bracket) {
         view.displayMessage("请输入新的税率（例如 0.05 表示 5%，原值 " + bracket.getRate() + "）：");
         return Double.parseDouble(view.getInput());
