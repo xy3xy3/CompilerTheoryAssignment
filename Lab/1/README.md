@@ -72,7 +72,7 @@ java -jar target/personal-tax-calculator-1.0-SNAPSHOT.jar
 
 为了方便一键运行，可以使用run.bat脚本启动
 ```bash
-run.bat
+./run.bat
 ```
 ![一键运行](./img/bat.png)
 

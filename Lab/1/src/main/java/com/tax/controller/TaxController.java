@@ -116,6 +116,10 @@ public class TaxController {
         try {
             view.displayMessage("请输入月工资薪金总额：");
             double salary = Double.parseDouble(view.getInput());
+            if (salary < 0) {
+                view.displayMessage("输入错误，请输入非负数。");
+                return;
+            }
             double tax = calculator.calculateTax(salary);
             view.displayTaxCalculation(tax, salary);
         } catch (NumberFormatException e) {
