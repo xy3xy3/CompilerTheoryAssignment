@@ -48,7 +48,7 @@ src/
 图中箭头表示类之间的依赖关系，例如`TaxController`依赖于`TaxCalculator`和`TaxView`，而`TaxCalculator`包含多个`TaxBracket`对象。通过这种分层设计，系统实现了高内聚低耦合，便于未来扩展和维护。
 
 
-![alt text](./img/uml.png)
+![alt text](./img/uml.svg)
 
 ### 模型层（Model）
 
@@ -112,6 +112,16 @@ public String toString() {
   ```
 
 - **addBracket()**：维护税率区间顺序，确保区间连续性
+  ```java
+  /**
+  * 添加一个税率级别
+  *
+  * @param bracket 要添加的税率级别
+  */
+  public void addBracket(TaxBracket bracket) {
+    brackets.add(bracket);
+  }
+  ```
 
 **设计模式**：
 
