@@ -1,0 +1,22 @@
+digraph DFA {
+  rankdir=LR;
+  node [shape = doublecircle]; A B C;  // A、B、C为接受状态
+  node [shape = circle];
+
+  // 起始状态指向初始状态A
+  start [shape=none, label=""];
+  start -> A [label="start"];
+
+  // 状态转换
+  A -> A [label="1"];
+  A -> B [label="0"];
+
+  B -> B [label="0"];
+  B -> C [label="1"];
+
+  C -> B [label="0"];
+  C -> D [label="1"];
+
+  // 死状态D自环
+  D -> D [label="0,1"];
+}
