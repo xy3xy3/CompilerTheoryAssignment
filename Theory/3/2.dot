@@ -20,6 +20,8 @@ digraph DFA {
   q1 -> q3 [label="1"];
 
   q2 -> q1 [label="0"];
+  q2 -> q2 [label="1"];
+
   q3 -> q1 [label="0"];
 
 
