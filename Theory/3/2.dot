@@ -1,0 +1,38 @@
+digraph DFA {
+  rankdir=LR;
+
+  // 定义状态（双圈表示接受状态）
+  node [shape = circle];
+  S0 [label="A, B"];
+  S1 [label="A, B, C, D, E, F, I, L", shape=doublecircle];
+  S2 [label="J"];
+  S3 [label="A, B, C, D, E, F, G, H, I, L", shape=doublecircle];
+  S4 [label="E, F, H, I, K, L", shape=doublecircle];
+  S5 [label="E, F, G, H, I, L", shape=doublecircle];
+  S_dead [label="∅"];
+
+  // 初始状态指向 S0
+  start [shape=none, label=""];
+  start -> S0;
+
+  // 转移边
+  S0 -> S_dead [label="0"];
+  S0 -> S1 [label="1"];
+
+  S1 -> S2 [label="0"];
+  S1 -> S3 [label="1"];
+
+  S2 -> S_dead [label="0"];
+  S2 -> S4 [label="1"];
+
+  S3 -> S2 [label="0"];
+  S3 -> S3 [label="1"];
+
+  S4 -> S2 [label="0"];
+  S4 -> S5 [label="1"];
+
+  S5 -> S2 [label="0"];
+  S5 -> S5 [label="1"];
+
+  S_dead -> S_dead [label="0,1"];
+}

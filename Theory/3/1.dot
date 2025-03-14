@@ -1,0 +1,32 @@
+digraph NFA_final {
+  rankdir=LR;
+  #A-K是状态，L是接收状态
+  node [shape=circle]; A B C D E F G H I J K;
+  node [shape=doublecircle]; L;
+
+  start [shape=none, label=""];
+  start -> A [label="start"];
+  # 1* 默认构成
+  A -> B [label="ε"];
+  B -> C [label="1"];
+  C -> B [label="ε"];
+  C -> D [label="ε"];
+  D -> A [label="ε"];
+  # (0 | 01)*
+  D -> E [label="ε"];
+  # 右边分支上面
+  E -> F [label="ε"];
+  F -> G [label="1"];
+  G -> H [label="ε"];
+  # 右边分支下面
+  E -> I [label="ε"];
+  I -> J [label="0"];
+  J -> K [label="1"];
+  K -> H [label="ε"];
+
+  #到结束
+  H -> E [label="ε"];
+  H -> L [label="ε"];
+  D -> L [label="ε"];
+
+}
