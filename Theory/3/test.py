@@ -1,7 +1,7 @@
 import re
 
 # Standard regular expression
-pattern = r'/o((z|/)|o(z|/))*o/'
+pattern = r'^/o((?:(?!o/)[zo/])*?)o/.*$'
 
 # Test function
 def test_comment(test_case):
@@ -12,6 +12,7 @@ def test_comment(test_case):
 
     if match:
         groups = match.groups()
+        print(groups)
         actual = groups[0] if groups else ""
         print(f"实际结果: '{actual}'")
         if actual == expected:
