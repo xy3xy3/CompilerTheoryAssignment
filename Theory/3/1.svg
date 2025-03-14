@@ -125,7 +125,7 @@
 <title>F-&gt;G</title>
 <path fill="none" stroke="black" d="M545.54,-159C567.17,-159 604.41,-159 630.33,-159"/>
 <polygon fill="black" stroke="black" points="630.17,-162.5 640.17,-159 630.17,-155.5 630.17,-162.5"/>
-<text text-anchor="middle" x="566.65" y="-163.2" font-family="Times,serif" font-size="14.00">1</text>
+<text text-anchor="middle" x="566.65" y="-163.2" font-family="Times,serif" font-size="14.00">0</text>
 </g>
 <!-- H -->
 <g id="node8" class="node">
