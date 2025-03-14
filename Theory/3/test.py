@@ -1,27 +1,45 @@
 import re
 
-pattern = r'^/o((z|/)*(o(z|o)*))*o/$'
+# Standard regular expression
+pattern = r'/o((z|/)|o(z|/))*o/'
 
-# 测试函数，使用 re.fullmatch 来确保整个字符串都被匹配
-def test_comment(comment):
+# Test function
+def test_comment(test_case):
+    comment, expected = test_case
     match = re.fullmatch(pattern, comment)
-    if match:
-        print(f"'{comment}' 匹配成功！")
-        print(f"匹配位置：开始={match.start()}, 结束={match.end()}")
-        print(f"匹配字符串：{match.group(0)}")
-        print(f"匹配组：{match.groups()}")
-    else:
-        print(f"'{comment}' 匹配失败。")
+    print(f"测试字符串: '{comment}'")
+    print(f"预期结果: '{expected}'")
 
-# 示例测试用例
+    if match:
+        groups = match.groups()
+        actual = groups[0] if groups else ""
+        print(f"实际结果: '{actual}'")
+        if actual == expected:
+            print("✓ 测试通过！")
+        else:
+            print("✗ 测试失败！")
+    else:
+        print(f"实际结果: False(不匹配)")
+        if expected == False:
+            print("✓ 测试通过！")
+        else:
+            print("✗ 测试失败！")
+
+# Test cases
 test_cases = [
-    "/oo/",
-    "/ozoo/",
-    "/oz/zoo/",
-    "/ooz/zoo/",
-    "/o/",
-    "/ozo/z/",
+    ("/oo/", ""),
+    ("/ozoo/", "zo"),
+    ("/oz/oo/", "z/o"),
+    ("/oz/zoo/", "z/zo"),
+    ("/ooz/zoo/", "oz/zo"),
+    ("/ooz/oo/", "oz/o"),
+    ("/ozo/z/", "z"),
+    ("/ooo/z/", "o"),
+    ("/zzz/", False),
+    ("/o/", False),
 ]
 
+print("开始运行测试用例...")
 for tc in test_cases:
     test_comment(tc)
+    print("--------------------------------")
