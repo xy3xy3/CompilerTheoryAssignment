@@ -1,0 +1,24 @@
+digraph DFA {
+  rankdir=LR;
+  node [shape = circle];
+
+  // 定义状态，带双圆的为接受状态
+  start [shape=none, label=""];
+  Q [label="Q", shape=doublecircle];
+  q1 [label="q1", shape=doublecircle];
+  q3 [label="q3", shape=doublecircle];
+
+  // 初始状态指向q0
+  start -> Q [label="start"];
+
+  // 转移函数
+  Q -> q1 [label="0"];
+
+  q1 -> q1 [label="0"];
+  q1 -> q3 [label="1"];
+
+
+  q3 -> q1 [label="0"];
+
+
+}
