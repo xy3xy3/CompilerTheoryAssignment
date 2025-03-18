@@ -12,6 +12,7 @@ digraph DFA {
   start -> Q [label="start"];
 
   // 转移函数
+  Q -> Q [label="1"];
   Q -> q1 [label="0"];
 
   q1 -> q1 [label="0"];

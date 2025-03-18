@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="351pt" height="92pt" viewBox="0.00 0.00 350.9 92.19">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="351pt" height="92pt" viewBox="0.00 0.00 350.90 92.19">
 <g id="graph0" class="graph" transform="translate(4,88.19000244140625) scale(1)" data-name="DFA">
 
 <polygon fill="white" stroke="none" points="-4,4 -4,-88.19 346.9,-88.19 346.9,4 -4,4"/>
@@ -7,61 +7,68 @@
 <g id="node1" class="node" pointer-events="visible" data-name="start">
 
 </g>
-<!-- q0 -->
+<!-- Q -->
+<g id="node2" class="node" pointer-events="visible" data-name="Q">
 
-<!-- start&#45;&gt;q0 -->
-<g id="edge1" class="edge" data-name="start-&gt;Q" data-comment="start-&gt;q0">
+<ellipse fill="none" stroke="black" cx="136.11" cy="-24.69" rx="18.02" ry="18.02"/>
+<ellipse fill="none" stroke="black" cx="136.11" cy="-24.69" rx="22.02" ry="22.02"/>
+<text text-anchor="middle" x="136.11" y="-20.49" font-family="Times,serif" font-size="14.00">Q</text>
+</g>
+<!-- start&#45;&gt;Q -->
+<g id="edge1" class="edge" data-name="start-&gt;Q">
 
 <path fill="none" stroke="black" d="M53.93,-24.69C68.53,-24.69 86.91,-24.69 102.49,-24.69"/>
 <polygon fill="black" stroke="black" points="102.23,-28.19 112.23,-24.69 102.23,-21.19 102.23,-28.19"/>
 <text text-anchor="middle" x="84.05" y="-28.89" font-family="Times,serif" font-size="14.00">start</text>
 </g>
 <!-- q1 -->
-<g id="node2" class="node" pointer-events="visible" data-name="Q" data-comment="q1">
+<g id="node3" class="node" pointer-events="visible" data-name="q1">
 
-<ellipse fill="none" stroke="black" cx="136.11" cy="-24.69" rx="18.02" ry="18.02"/>
-<ellipse fill="none" stroke="black" cx="136.11" cy="-24.69" rx="22.02" ry="22.02"/>
-<text text-anchor="middle" x="136.11" y="-20.49" font-family="Times,serif" font-size="14.00">Q</text>
+<ellipse fill="none" stroke="black" cx="225.82" cy="-24.69" rx="20.86" ry="20.86"/>
+<ellipse fill="none" stroke="black" cx="225.82" cy="-24.69" rx="24.89" ry="24.89"/>
+<text text-anchor="middle" x="225.82" y="-20.49" font-family="Times,serif" font-size="14.00">q1</text>
+</g><g id="edge2" class="edge" data-name="Q-&gt;Q" data-comment="q1">
+
+<path fill="none" stroke="black" d="M128.15,-45.69C127.17,-55.79 129.83,-64.7 136.11,-64.7 139.85,-64.7 142.3,-61.56 143.47,-56.89"/>
+<polygon fill="black" stroke="black" points="146.95,-57.37 143.99,-47.2 139.96,-57 146.95,-57.37"/>
+<text text-anchor="middle" x="136.11" y="-68.9" font-family="Times,serif" font-size="14.00">1</text>
 </g>
-<!-- q0&#45;&gt;q1 -->
-
-<!-- q2 -->
-<g id="edge2" class="edge" data-name="Q-&gt;q1" data-comment="q2">
+<!-- Q&#45;&gt;q1 -->
+<g id="edge3" class="edge" data-name="Q-&gt;q1">
 
 <path fill="none" stroke="black" d="M158.34,-24.69C167.63,-24.69 178.77,-24.69 189.26,-24.69"/>
 <polygon fill="black" stroke="black" points="189.17,-28.19 199.17,-24.69 189.17,-21.19 189.17,-28.19"/>
 <text text-anchor="middle" x="179.62" y="-28.89" font-family="Times,serif" font-size="14.00">0</text>
 </g>
-<!-- q0&#45;&gt;q2 -->
+<!-- q1&#45;&gt;q1 -->
+<g id="edge4" class="edge" data-name="q1-&gt;q1">
 
-<g id="node4" class="node" pointer-events="visible" data-name="q3" data-comment="q0-&gt;q2">
+<path fill="none" stroke="black" d="M217.26,-48.4C216.56,-58.63 219.41,-67.39 225.82,-67.39 229.62,-67.39 232.17,-64.3 233.47,-59.65"/>
+<polygon fill="black" stroke="black" points="236.94,-60.16 234.25,-49.91 229.96,-59.6 236.94,-60.16"/>
+<text text-anchor="middle" x="225.82" y="-71.59" font-family="Times,serif" font-size="14.00">0</text>
+</g>
+<!-- q3 -->
+<g id="node4" class="node" pointer-events="visible" data-name="q3">
 
 <ellipse fill="none" stroke="black" cx="318.2" cy="-24.69" rx="20.86" ry="20.86"/>
 <ellipse fill="none" stroke="black" cx="318.2" cy="-24.69" rx="24.89" ry="24.89"/>
 <text text-anchor="middle" x="318.2" y="-20.49" font-family="Times,serif" font-size="14.00">q3</text>
-</g><!-- q1 -->
-<g id="node3" class="node" pointer-events="visible" data-name="q1">
+</g>
+<!-- q1&#45;&gt;q3 -->
+<g id="edge5" class="edge" data-name="q1-&gt;q3">
 
-<ellipse fill="none" stroke="black" cx="225.82" cy="-24.69" rx="20.86" ry="20.86"/>
-<text text-anchor="middle" x="225.82" y="-20.49" font-family="Times,serif" font-size="14.00">q1</text><ellipse fill="none" stroke="black" cx="225.82" cy="-24.69" rx="24.89" ry="24.89"/>
-
+<path fill="none" stroke="black" d="M251.04,-24.69C260.46,-24.69 271.45,-24.69 281.73,-24.69"/>
+<polygon fill="black" stroke="black" points="281.4,-28.19 291.4,-24.69 281.4,-21.19 281.4,-28.19"/>
+<text text-anchor="middle" x="272.01" y="-28.89" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- q3&#45;&gt;q1 -->
-<g id="edge5" class="edge" data-name="q3-&gt;q1">
+<!-- q3&#45;&gt;q1 -->
+<g id="edge6" class="edge" data-name="q3-&gt;q1">
 
 <path fill="none" stroke="black" d="M296.29,-11.9C289.85,-8.63 282.6,-5.56 275.51,-3.89 269.25,-2.42 262.77,-3.3 256.66,-5.37"/>
 <polygon fill="black" stroke="black" points="255.24,-2.17 247.57,-9.49 258.13,-8.55 255.24,-2.17"/>
 <text text-anchor="middle" x="272.01" y="-7.89" font-family="Times,serif" font-size="14.00">0</text>
 </g>
-<g id="edge4" class="edge" data-name="q1-&gt;q3" data-comment="q3-&gt;q1">
 
-<path fill="none" stroke="black" d="M251.04,-24.69C260.46,-24.69 271.45,-24.69 281.73,-24.69"/>
-<polygon fill="black" stroke="black" points="281.4,-28.19 291.4,-24.69 281.4,-21.19 281.4,-28.19"/>
-<text text-anchor="middle" x="272.01" y="-28.89" font-family="Times,serif" font-size="14.00">1</text>
-</g><g id="edge3" class="edge" data-name="q1-&gt;q1" data-comment="q3-&gt;q1">
-
-<path fill="none" stroke="black" d="M217.26,-48.4C216.56,-58.63 219.41,-67.39 225.82,-67.39 229.62,-67.39 232.17,-64.3 233.47,-59.65"/>
-<polygon fill="black" stroke="black" points="236.94,-60.16 234.25,-49.91 229.96,-59.6 236.94,-60.16"/>
-<text text-anchor="middle" x="225.82" y="-71.59" font-family="Times,serif" font-size="14.00">0</text>
-</g></g>
+</g>
 </svg>
