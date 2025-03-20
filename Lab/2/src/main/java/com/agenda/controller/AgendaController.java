@@ -69,7 +69,7 @@ public class AgendaController {
     }
 
     public void handleAdd(String[] command) {
-        if (command.length != 8) {
+        if (command.length != 7) {
             view.showError("添加会议命令格式错误");
             return;
         }
