@@ -344,6 +344,9 @@ public class AgendaController {
                 case "clear":
                     handleClear(command);
                     break;
+                case "batch":
+                    handleBatch(command);
+                    break;
                 case "quit":
                     return;
                 default:
@@ -397,6 +400,69 @@ public class AgendaController {
         }
     }
 
+    // 批处理命令处理
+    public void handleBatch(String[] command) {
+        if (command.length != 2) {
+            view.showError("批处理命令格式错误");
+            return;
+        }
+
+        String fileName = command[1];
+        List<String> lines = readFile(fileName);
+
+        if (lines == null) {
+            return;
+        }
+
+        view.showSuccess("开始执行批处理命令文件: " + fileName);
+
+        for (String line : lines) {
+            // 跳过空行
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+
+            // 分割命令行
+            String[] batchCommand = line.trim().split("\\s+");
+
+            // 显示正在执行的命令
+            System.out.println("执行命令: " + line);
+
+            // 处理批处理中的命令，但忽略quit和batch命令
+            switch (batchCommand[0].toLowerCase()) {
+                case "register":
+                    handleRegister(batchCommand);
+                    break;
+                case "add":
+                    handleAdd(batchCommand);
+                    break;
+                case "query":
+                    handleQuery(batchCommand);
+                    break;
+                case "delete":
+                    handleDelete(batchCommand);
+                    break;
+                case "clear":
+                    handleClear(batchCommand);
+                    break;
+                default:
+                    view.showError("不支持的批处理命令: " + batchCommand[0]);
+            }
+        }
+
+        view.showSuccess("批处理命令文件执行完成: " + fileName);
+    }
+
+    // 读取文件内容
+    private List<String> readFile(String fileName) {
+        try {
+            return Files.readAllLines(Paths.get(fileName));
+        } catch (IOException e) {
+            view.showError("无法读取文件: " + fileName);
+            return null;
+        }
+    }
+
     // 其他命令处理方法...
 }
 ```
@@ -414,6 +480,11 @@ public class AgendaController {
    - 从视图获取用户输入
    - 调用服务层执行业务逻辑
    - 通过视图显示操作结果
+
+4. **批处理命令处理**：
+   - 支持从外部文件读取并执行多条命令
+   - 按行解析执行批处理文件中的命令
+   - 处理批处理执行过程中的异常情况
 
 ---
 

@@ -72,7 +72,9 @@ package "Controller" {
         + handleQuery(command: String[]): void
         + handleDelete(command: String[]): void
         + handleClear(command: String[]): void
+        + handleBatch(command: String[]): void
         + handleInvalidCommand(command: String[]): void
+        + readFile(fileName: String): List<String>
     }
 }
 
