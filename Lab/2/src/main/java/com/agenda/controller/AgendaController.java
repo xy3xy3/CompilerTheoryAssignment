@@ -69,7 +69,7 @@ public class AgendaController {
     }
 
     public void handleAdd(String[] command) {
-        if (command.length != 7) {
+        if (command.length != 7 && command.length != 9) {
             view.showError("添加会议命令格式错误");
             return;
         }
@@ -78,12 +78,29 @@ public class AgendaController {
             String username = command[1];
             String password = command[2];
             String participant = command[3];
-            String startDateTimeStr = command[4];
-            String endDateTimeStr = command[5];
-            String title = command[6];
+            LocalDateTime startDateTime;
+            LocalDateTime endDateTime;
+            String title;
 
-            LocalDateTime startDateTime = view.parseDateTime(startDateTimeStr);
-            LocalDateTime endDateTime = view.parseDateTime(endDateTimeStr);
+            if (command.length == 9) {
+                // 处理9个参数的格式：add username password participant startDate startTime endDate endTime title
+                String startDate = command[4];
+                String startTime = command[5];
+                String endDate = command[6];
+                String endTime = command[7];
+                title = command[8];
+
+                startDateTime = view.parseDateTime(startDate + " " + startTime);
+                endDateTime = view.parseDateTime(endDate + " " + endTime);
+            } else {
+                // 处理7个参数的格式：add username password participant startDateTime endDateTime title
+                String startDateTimeStr = command[4];
+                String endDateTimeStr = command[5];
+                title = command[6];
+
+                startDateTime = view.parseDateTime(startDateTimeStr);
+                endDateTime = view.parseDateTime(endDateTimeStr);
+            }
 
             if (service.addMeeting(username, password, participant, title, startDateTime, endDateTime)) {
                 view.showSuccess("会议添加成功");
@@ -96,7 +113,7 @@ public class AgendaController {
     }
 
     public void handleQuery(String[] command) {
-        if (command.length != 5) {
+        if (command.length != 5 && command.length != 7) {
             view.showError("查询会议命令格式错误");
             return;
         }
@@ -104,11 +121,26 @@ public class AgendaController {
         try {
             String username = command[1];
             String password = command[2];
-            String startDateTimeStr = command[3];
-            String endDateTimeStr = command[4];
+            LocalDateTime startDateTime;
+            LocalDateTime endDateTime;
 
-            LocalDateTime startDateTime = view.parseDateTime(startDateTimeStr);
-            LocalDateTime endDateTime = view.parseDateTime(endDateTimeStr);
+            if (command.length == 7) {
+                // 处理7个参数的格式：query username password startDate startTime endDate endTime
+                String startDate = command[3];
+                String startTime = command[4];
+                String endDate = command[5];
+                String endTime = command[6];
+
+                startDateTime = view.parseDateTime(startDate + " " + startTime);
+                endDateTime = view.parseDateTime(endDate + " " + endTime);
+            } else {
+                // 处理5个参数的格式：query username password startDateTime endDateTime
+                String startDateTimeStr = command[3];
+                String endDateTimeStr = command[4];
+
+                startDateTime = view.parseDateTime(startDateTimeStr);
+                endDateTime = view.parseDateTime(endDateTimeStr);
+            }
 
             List<Meeting> meetings = service.queryMeetings(username, password, startDateTime, endDateTime);
             view.showMeetings(meetings);
