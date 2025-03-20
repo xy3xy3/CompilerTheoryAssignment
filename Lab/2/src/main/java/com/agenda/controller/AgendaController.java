@@ -13,11 +13,17 @@ public class AgendaController {
     private AgendaService service;
     private AgendaView view;
 
+    /**
+     * 构造函数，初始化服务和视图
+     */
     public AgendaController() {
         this.service = new AgendaService();
         this.view = new AgendaView();
     }
 
+    /**
+     * 启动议程管理系统
+     */
     public void start() {
         view.showWelcome();
         while (true) {
@@ -52,6 +58,11 @@ public class AgendaController {
         }
     }
 
+    /**
+     * 处理用户注册命令
+     *
+     * @param command 包含命令和参数的字符串数组
+     */
     public void handleRegister(String[] command) {
         if (command.length != 3) {
             view.showError("注册命令格式错误");
@@ -68,6 +79,11 @@ public class AgendaController {
         }
     }
 
+    /**
+     * 处理添加会议命令
+     *
+     * @param command 包含命令和参数的字符串数组
+     */
     public void handleAdd(String[] command) {
         if (command.length != 7 && command.length != 9) {
             view.showError("添加会议命令格式错误");
@@ -112,6 +128,11 @@ public class AgendaController {
         }
     }
 
+    /**
+     * 处理查询会议命令
+     *
+     * @param command 包含命令和参数的字符串数组
+     */
     public void handleQuery(String[] command) {
         if (command.length != 5 && command.length != 7) {
             view.showError("查询会议命令格式错误");
@@ -149,6 +170,11 @@ public class AgendaController {
         }
     }
 
+    /**
+     * 处理删除会议命令
+     *
+     * @param command 包含命令和参数的字符串数组
+     */
     public void handleDelete(String[] command) {
         if (command.length != 4) {
             view.showError("删除会议命令格式错误");
@@ -166,6 +192,11 @@ public class AgendaController {
         }
     }
 
+    /**
+     * 处理清除会议命令
+     *
+     * @param command 包含命令和参数的字符串数组
+     */
     public void handleClear(String[] command) {
         if (command.length != 3) {
             view.showError("清除会议命令格式错误");
@@ -182,6 +213,11 @@ public class AgendaController {
         }
     }
 
+    /**
+     * 处理无效命令
+     *
+     * @param command 包含命令和参数的字符串数组
+     */
     public void handleInvalidCommand(String[] command) {
         view.showHelp();
     }

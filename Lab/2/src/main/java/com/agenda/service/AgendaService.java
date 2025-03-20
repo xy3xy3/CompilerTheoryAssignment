@@ -11,10 +11,20 @@ import java.util.*;
 public class AgendaService {
     private Map<String, User> users;
 
+    /**
+     * 构造函数，初始化用户映射
+     */
     public AgendaService() {
         this.users = new HashMap<>();
     }
 
+    /**
+     * 注册新用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 如果注册成功返回 true，否则返回 false
+     */
     public boolean registerUser(String username, String password) {
         if (users.containsKey(username)) {
             return false;
@@ -23,8 +33,19 @@ public class AgendaService {
         return true;
     }
 
+    /**
+     * 添加会议
+     *
+     * @param organizer 会议组织者
+     * @param password 组织者密码
+     * @param participant 会议参与者
+     * @param title 会议标题
+     * @param startTime 会议开始时间
+     * @param endTime 会议结束时间
+     * @return 如果添加成功返回 true，否则返回 false
+     */
     public boolean addMeeting(String organizer, String password, String participant,
-                            String title, LocalDateTime startTime, LocalDateTime endTime) {
+                              String title, LocalDateTime startTime, LocalDateTime endTime) {
         User organizerUser = users.get(organizer);
         User participantUser = users.get(participant);
 
@@ -52,8 +73,17 @@ public class AgendaService {
         return true;
     }
 
+    /**
+     * 查询会议
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @param startTime 查询开始时间
+     * @param endTime 查询结束时间
+     * @return 会议列表
+     */
     public List<Meeting> queryMeetings(String username, String password,
-                                     LocalDateTime startTime, LocalDateTime endTime) {
+                                       LocalDateTime startTime, LocalDateTime endTime) {
         User user = users.get(username);
         if (user == null || !user.getPassword().equals(password)) {
             return Collections.emptyList();
@@ -69,6 +99,14 @@ public class AgendaService {
         return result;
     }
 
+    /**
+     * 删除会议
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @param meetingTitle 会议标题
+     * @return 如果删除成功返回 true，否则返回 false
+     */
     public boolean deleteMeeting(String username, String password, String meetingTitle) {
         User user = users.get(username);
         if (user == null || !user.getPassword().equals(password)) {
@@ -99,6 +137,13 @@ public class AgendaService {
         return false;
     }
 
+    /**
+     * 清除用户的所有会议
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 如果清除成功返回 true，否则返回 false
+     */
     public boolean clearMeetings(String username, String password) {
         User user = users.get(username);
         if (user == null || !user.getPassword().equals(password)) {
