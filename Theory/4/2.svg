@@ -1,0 +1,40 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="215pt" height="52pt" viewBox="0.00 0.00 214.86 52.00">
+<g id="graph0" class="graph" transform="translate(4,48) scale(1)" data-name="L">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-48 210.86,-48 210.86,4 -4,4"/>
+<!-- 6 -->
+<g id="node1" class="node" pointer-events="visible" data-name="6">
+
+<ellipse fill="none" stroke="black" cx="18" cy="-22" rx="18" ry="18"/>
+<text text-anchor="middle" x="18" y="-17.8" font-family="Times,serif" font-size="14.00">6</text>
+</g>
+<!-- 7 -->
+<g id="node2" class="node" pointer-events="visible" data-name="7">
+
+<ellipse fill="none" stroke="black" cx="97.79" cy="-22" rx="18" ry="18"/>
+<text text-anchor="middle" x="97.79" y="-17.8" font-family="Times,serif" font-size="14.00">7</text>
+</g>
+<!-- 6&#45;&gt;7 -->
+<g id="edge1" class="edge" data-name="6-&gt;7">
+
+<path fill="none" stroke="black" d="M36.26,-22C45.56,-22 57.28,-22 67.93,-22"/>
+<polygon fill="black" stroke="black" points="67.79,-25.5 77.79,-22 67.79,-18.5 67.79,-25.5"/>
+<text text-anchor="middle" x="57.89" y="-26.2" font-family="Times,serif" font-size="14.00">S</text>
+</g>
+<!-- 8 -->
+<g id="node3" class="node" pointer-events="visible" data-name="8">
+
+<ellipse fill="none" stroke="black" cx="184.86" cy="-22" rx="18" ry="18"/>
+<ellipse fill="none" stroke="black" cx="184.86" cy="-22" rx="22" ry="22"/>
+<text text-anchor="middle" x="184.86" y="-17.8" font-family="Times,serif" font-size="14.00">8</text>
+</g>
+<!-- 7&#45;&gt;8 -->
+<g id="edge2" class="edge" data-name="7-&gt;8">
+
+<path fill="none" stroke="black" d="M116,-22C126.05,-22 139.07,-22 151.01,-22"/>
+<polygon fill="black" stroke="black" points="150.93,-25.5 160.93,-22 150.93,-18.5 150.93,-25.5"/>
+<text text-anchor="middle" x="139.32" y="-26.2" font-family="Times,serif" font-size="14.00">L'</text>
+</g>
+</g>
+</svg>

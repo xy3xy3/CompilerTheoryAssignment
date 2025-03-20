@@ -1,0 +1,15 @@
+
+
+digraph LPrime {
+    rankdir=LR;
+    // L' -> , S L' | ε
+    9 [shape=circle, label="9"];
+    10 [shape=circle, label="10"];
+    11 [shape=circle, label="11"];
+    12 [shape=doublecircle, label="12"];
+
+    9 -> 10 [label=","];
+    10 -> 11 [label="S"];
+    11 -> 12 [label="L'"];
+    9 -> 12 [label="ε"];
+}
