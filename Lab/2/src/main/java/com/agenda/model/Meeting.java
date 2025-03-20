@@ -1,11 +1,13 @@
 package com.agenda.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * 会议模型类
  */
 public class Meeting {
+    private String id; // 会议的唯一标识符
     private String title;
     private String organizer;
     private String participant;
@@ -23,11 +25,21 @@ public class Meeting {
      */
     public Meeting(String title, String organizer, String participant,
                    LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = UUID.randomUUID().toString(); // 生成唯一的会议ID
         this.title = title;
         this.organizer = organizer;
         this.participant = participant;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    /**
+     * 获取会议ID
+     *
+     * @return 会议ID
+     */
+    public String getId() {
+        return id;
     }
 
     /**

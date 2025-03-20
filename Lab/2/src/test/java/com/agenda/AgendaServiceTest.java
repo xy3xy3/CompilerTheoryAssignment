@@ -95,8 +95,13 @@ class AgendaServiceTest {
         boolean addResult = agendaService.addMeeting("user1", "pass1", "user2", "MeetingToDelete", startTime, endTime);
         assertTrue(addResult, "会议添加应成功");
 
+        // 获取会议ID
+        List<Meeting> meetings = agendaService.queryMeetings("user1", "pass1", startTime.minusHours(1), endTime.plusHours(1));
+        assertEquals(1, meetings.size(), "应该找到1个会议");
+        String meetingId = meetings.get(0).getId();
+
         // 删除会议
-        boolean deleteResult = agendaService.deleteMeeting("user1", "pass1", "MeetingToDelete");
+        boolean deleteResult = agendaService.deleteMeeting("user1", "pass1", meetingId);
         assertTrue(deleteResult, "删除会议应成功");
 
         // 查询会议应为空

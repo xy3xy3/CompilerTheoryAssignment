@@ -136,11 +136,34 @@ class AgendaControllerTest {
     @Test
     void testHandleDelete_Success() {
         // 准备测试数据
-        String[] command = {"delete", "testUser", "password123", "测试会议"};
-        when(service.deleteMeeting("testUser", "password123", "测试会议")).thenReturn(true);
+        LocalDateTime startDateTime = LocalDateTime.of(2024, 3, 20, 10, 0);
+        LocalDateTime endDateTime = LocalDateTime.of(2024, 3, 20, 11, 0);
+        Meeting testMeeting = new Meeting("测试会议", "testUser", "participant", startDateTime, endDateTime);
+        String meetingId = testMeeting.getId();
 
-        // 执行测试
-        controller.handleDelete(command);
+        // 模拟查询会议返回结果
+        List<Meeting> meetings = Arrays.asList(testMeeting);
+        when(service.queryMeetings("testUser", "password123", startDateTime.minusHours(1), endDateTime.plusHours(1)))
+            .thenReturn(meetings);
+
+        // 模拟删除会议成功
+        when(service.deleteMeeting("testUser", "password123", meetingId)).thenReturn(true);
+
+        // 先执行查询命令获取会议ID
+        String[] queryCommand = {
+            "query", "testUser", "password123",
+            "2024-03-20 09:00", "2024-03-20 12:00"
+        };
+        when(view.parseDateTime("2024-03-20 09:00")).thenReturn(startDateTime.minusHours(1));
+        when(view.parseDateTime("2024-03-20 12:00")).thenReturn(endDateTime.plusHours(1));
+        controller.handleQuery(queryCommand);
+
+        // 验证显示会议列表
+        verify(view).showMeetings(meetings);
+
+        // 然后执行删除命令
+        String[] deleteCommand = {"delete", "testUser", "password123", meetingId};
+        controller.handleDelete(deleteCommand);
 
         // 验证结果
         verify(view).showSuccess("会议删除成功");
@@ -149,14 +172,37 @@ class AgendaControllerTest {
     @Test
     void testHandleDelete_Failure() {
         // 准备测试数据
-        String[] command = {"delete", "testUser", "password123", "测试会议"};
-        when(service.deleteMeeting("testUser", "password123", "测试会议")).thenReturn(false);
+        LocalDateTime startDateTime = LocalDateTime.of(2024, 3, 20, 10, 0);
+        LocalDateTime endDateTime = LocalDateTime.of(2024, 3, 20, 11, 0);
+        Meeting testMeeting = new Meeting("测试会议", "testUser", "participant", startDateTime, endDateTime);
+        String meetingId = testMeeting.getId();
 
-        // 执行测试
-        controller.handleDelete(command);
+        // 模拟查询会议返回结果
+        List<Meeting> meetings = Arrays.asList(testMeeting);
+        when(service.queryMeetings("testUser", "password123", startDateTime.minusHours(1), endDateTime.plusHours(1)))
+            .thenReturn(meetings);
+
+        // 模拟删除会议失败
+        when(service.deleteMeeting("testUser", "password123", meetingId)).thenReturn(false);
+
+        // 先执行查询命令获取会议ID
+        String[] queryCommand = {
+            "query", "testUser", "password123",
+            "2024-03-20 09:00", "2024-03-20 12:00"
+        };
+        when(view.parseDateTime("2024-03-20 09:00")).thenReturn(startDateTime.minusHours(1));
+        when(view.parseDateTime("2024-03-20 12:00")).thenReturn(endDateTime.plusHours(1));
+        controller.handleQuery(queryCommand);
+
+        // 验证显示会议列表
+        verify(view).showMeetings(meetings);
+
+        // 然后执行删除命令（但删除会失败）
+        String[] deleteCommand = {"delete", "testUser", "password123", meetingId};
+        controller.handleDelete(deleteCommand);
 
         // 验证结果
-        verify(view).showError("会议删除失败，请检查用户名、密码或会议标题");
+        verify(view).showError("会议删除失败，请检查用户名、密码或会议ID");
     }
 
     @Test

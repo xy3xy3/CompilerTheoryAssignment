@@ -87,6 +87,7 @@ public class AgendaView {
 
         System.out.println("找到以下会议：");
         for (Meeting meeting : meetings) {
+            System.out.printf("ID: %s\n", meeting.getId());
             System.out.printf("标题: %s\n", meeting.getTitle());
             System.out.printf("组织者: %s\n", meeting.getOrganizer());
             System.out.printf("参与者: %s\n", meeting.getParticipant());
@@ -115,7 +116,7 @@ public class AgendaView {
         System.out.println("register <username> <password> - 注册新用户");
         System.out.println("add <username> <password> <participant> <start> <end> <title> - 添加会议");
         System.out.println("query <username> <password> <start> <end> - 查询会议");
-        System.out.println("delete <username> <password> <title> - 删除会议");
+        System.out.println("delete <username> <password> <meetingId> - 删除会议");
         System.out.println("clear <username> <password> - 清除所有会议");
         System.out.println("quit - 退出系统");
         System.out.println("\n时间格式：yyyy-MM-dd HH:mm");

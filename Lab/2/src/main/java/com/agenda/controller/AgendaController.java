@@ -183,12 +183,12 @@ public class AgendaController {
 
         String username = command[1];
         String password = command[2];
-        String title = command[3];
+        String meetingId = command[3];
 
-        if (service.deleteMeeting(username, password, title)) {
+        if (service.deleteMeeting(username, password, meetingId)) {
             view.showSuccess("会议删除成功");
         } else {
-            view.showError("会议删除失败，请检查用户名、密码或会议标题");
+            view.showError("会议删除失败，请检查用户名、密码或会议ID");
         }
     }
 

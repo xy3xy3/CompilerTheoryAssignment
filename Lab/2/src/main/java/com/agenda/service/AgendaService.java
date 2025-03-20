@@ -104,10 +104,10 @@ public class AgendaService {
      *
      * @param username 用户名
      * @param password 密码
-     * @param meetingTitle 会议标题
+     * @param meetingId 会议ID
      * @return 如果删除成功返回 true，否则返回 false
      */
-    public boolean deleteMeeting(String username, String password, String meetingTitle) {
+    public boolean deleteMeeting(String username, String password, String meetingId) {
         User user = users.get(username);
         if (user == null || !user.getPassword().equals(password)) {
             return false;
@@ -115,7 +115,7 @@ public class AgendaService {
 
         Meeting meetingToDelete = null;
         for (Meeting meeting : user.getMeetings()) {
-            if (meeting.getTitle().equals(meetingTitle)) {
+            if (meeting.getId().equals(meetingId)) {
                 meetingToDelete = meeting;
                 break;
             }
