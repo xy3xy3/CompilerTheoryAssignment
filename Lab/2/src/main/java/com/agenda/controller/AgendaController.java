@@ -47,12 +47,12 @@ public class AgendaController {
                 case "quit":
                     return;
                 default:
-                    view.showHelp();
+                    handleInvalidCommand(command);
             }
         }
     }
 
-    private void handleRegister(String[] command) {
+    public void handleRegister(String[] command) {
         if (command.length != 3) {
             view.showError("注册命令格式错误");
             return;
@@ -68,7 +68,7 @@ public class AgendaController {
         }
     }
 
-    private void handleAdd(String[] command) {
+    public void handleAdd(String[] command) {
         if (command.length != 9) {
             view.showError("添加会议命令格式错误");
             return;
@@ -97,7 +97,7 @@ public class AgendaController {
         }
     }
 
-    private void handleQuery(String[] command) {
+    public void handleQuery(String[] command) {
         if (command.length != 7) {
             view.showError("查询会议命令格式错误");
             return;
@@ -121,7 +121,7 @@ public class AgendaController {
         }
     }
 
-    private void handleDelete(String[] command) {
+    public void handleDelete(String[] command) {
         if (command.length != 4) {
             view.showError("删除会议命令格式错误");
             return;
@@ -138,7 +138,7 @@ public class AgendaController {
         }
     }
 
-    private void handleClear(String[] command) {
+    public void handleClear(String[] command) {
         if (command.length != 3) {
             view.showError("清除会议命令格式错误");
             return;
@@ -152,5 +152,9 @@ public class AgendaController {
         } else {
             view.showError("清除会议失败，请检查用户名和密码");
         }
+    }
+
+    public void handleInvalidCommand(String[] command) {
+        view.showHelp();
     }
 }

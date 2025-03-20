@@ -1,1 +1,2 @@
-com\agenda\AppTest.class
+com\agenda\AgendaControllerTest.class
+com\agenda\AgendaServiceTest.class

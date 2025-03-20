@@ -18,6 +18,10 @@ public class AgendaView {
         this.scanner = new Scanner(System.in);
     }
 
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     public void showPrompt() {
         System.out.print("$ ");
     }
@@ -62,13 +66,11 @@ public class AgendaView {
 
     public void showHelp() {
         System.out.println("可用命令：");
-        System.out.println("register [用户名] [密码] - 注册新用户");
-        System.out.println("add [用户名] [密码] [参与者] [开始日期] [开始时间] [结束日期] [结束时间] [标题] - 添加会议");
-        System.out.println("  日期格式：yyyy-MM-dd");
-        System.out.println("  时间格式：HH:mm");
-        System.out.println("query [用户名] [密码] [开始时间] [结束时间] - 查询会议");
-        System.out.println("delete [用户名] [密码] [会议标题] - 删除会议");
-        System.out.println("clear [用户名] [密码] - 清除所有会议");
+        System.out.println("register <username> <password> - 注册新用户");
+        System.out.println("add <username> <password> <participant> <startDate> <startTime> <endDate> <endTime> <title> - 添加会议");
+        System.out.println("query <username> <password> <startDate> <startTime> <endDate> <endTime> - 查询会议");
+        System.out.println("delete <username> <password> <title> - 删除会议");
+        System.out.println("clear <username> <password> - 清除所有会议");
         System.out.println("quit - 退出系统");
     }
 }
