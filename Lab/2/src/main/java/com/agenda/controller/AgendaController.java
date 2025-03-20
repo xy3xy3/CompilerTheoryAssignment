@@ -69,7 +69,7 @@ public class AgendaController {
     }
 
     public void handleAdd(String[] command) {
-        if (command.length != 9) {
+        if (command.length != 8) {
             view.showError("添加会议命令格式错误");
             return;
         }
@@ -78,14 +78,12 @@ public class AgendaController {
             String username = command[1];
             String password = command[2];
             String participant = command[3];
-            String startDate = command[4];
-            String startTime = command[5];
-            String endDate = command[6];
-            String endTime = command[7];
-            String title = command[8];
+            String startDateTimeStr = command[4];
+            String endDateTimeStr = command[5];
+            String title = command[6];
 
-            LocalDateTime startDateTime = view.parseDateTime(startDate + " " + startTime);
-            LocalDateTime endDateTime = view.parseDateTime(endDate + " " + endTime);
+            LocalDateTime startDateTime = view.parseDateTime(startDateTimeStr);
+            LocalDateTime endDateTime = view.parseDateTime(endDateTimeStr);
 
             if (service.addMeeting(username, password, participant, title, startDateTime, endDateTime)) {
                 view.showSuccess("会议添加成功");
@@ -93,12 +91,12 @@ public class AgendaController {
                 view.showError("会议添加失败，请检查用户名、密码或时间冲突");
             }
         } catch (Exception e) {
-            view.showError("日期格式错误，请使用yyyy-MM-dd HH:mm格式");
+            view.showError("时间格式错误，请使用正确的格式：yyyy-MM-dd HH:mm");
         }
     }
 
     public void handleQuery(String[] command) {
-        if (command.length != 7) {
+        if (command.length != 5) {
             view.showError("查询会议命令格式错误");
             return;
         }
@@ -106,18 +104,16 @@ public class AgendaController {
         try {
             String username = command[1];
             String password = command[2];
-            String startDate = command[3];
-            String startTime = command[4];
-            String endDate = command[5];
-            String endTime = command[6];
+            String startDateTimeStr = command[3];
+            String endDateTimeStr = command[4];
 
-            LocalDateTime startDateTime = view.parseDateTime(startDate + " " + startTime);
-            LocalDateTime endDateTime = view.parseDateTime(endDate + " " + endTime);
+            LocalDateTime startDateTime = view.parseDateTime(startDateTimeStr);
+            LocalDateTime endDateTime = view.parseDateTime(endDateTimeStr);
 
             List<Meeting> meetings = service.queryMeetings(username, password, startDateTime, endDateTime);
             view.showMeetings(meetings);
         } catch (Exception e) {
-            view.showError("日期格式错误，请使用yyyy-MM-dd HH:mm格式");
+            view.showError("时间格式错误，请使用正确的格式：yyyy-MM-dd HH:mm");
         }
     }
 

@@ -84,12 +84,17 @@ public class AgendaService {
         }
 
         if (meetingToDelete != null) {
-            user.removeMeeting(meetingToDelete);
-            User participant = users.get(meetingToDelete.getParticipant());
-            if (participant != null) {
-                participant.removeMeeting(meetingToDelete);
+            // 检查用户是否是会议的组织者或参与者
+            if (meetingToDelete.getOrganizer().equals(username) ||
+                meetingToDelete.getParticipant().equals(username)) {
+                user.removeMeeting(meetingToDelete);
+                User otherUser = users.get(meetingToDelete.getOrganizer().equals(username) ?
+                    meetingToDelete.getParticipant() : meetingToDelete.getOrganizer());
+                if (otherUser != null) {
+                    otherUser.removeMeeting(meetingToDelete);
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }

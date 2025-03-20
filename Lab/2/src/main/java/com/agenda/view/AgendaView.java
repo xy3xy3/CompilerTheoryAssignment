@@ -12,7 +12,9 @@ import java.util.Scanner;
 public class AgendaView {
     private Scanner scanner;
     private static final DateTimeFormatter DATE_FORMATTER =
-        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_FORMATTER =
+        DateTimeFormatter.ofPattern("HH:mm");
 
     public AgendaView() {
         this.scanner = new Scanner(System.in);
@@ -61,16 +63,18 @@ public class AgendaView {
     }
 
     public LocalDateTime parseDateTime(String dateTimeStr) {
-        return LocalDateTime.parse(dateTimeStr, DATE_FORMATTER);
+        return LocalDateTime.parse(dateTimeStr,
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public void showHelp() {
         System.out.println("可用命令：");
         System.out.println("register <username> <password> - 注册新用户");
-        System.out.println("add <username> <password> <participant> <startDate> <startTime> <endDate> <endTime> <title> - 添加会议");
-        System.out.println("query <username> <password> <startDate> <startTime> <endDate> <endTime> - 查询会议");
+        System.out.println("add <username> <password> <participant> <start> <end> <title> - 添加会议");
+        System.out.println("query <username> <password> <start> <end> - 查询会议");
         System.out.println("delete <username> <password> <title> - 删除会议");
         System.out.println("clear <username> <password> - 清除所有会议");
         System.out.println("quit - 退出系统");
+        System.out.println("\n时间格式：yyyy-MM-dd HH:mm");
     }
 }

@@ -74,7 +74,7 @@ class AgendaControllerTest {
         // 准备测试数据
         String[] command = {
             "add", "testUser", "password123", "participant",
-            "2024-03-20", "10:00", "2024-03-20", "11:00", "测试会议"
+            "2024-03-20 10:00", "2024-03-20 11:00", "测试会议"
         };
         LocalDateTime startDateTime = LocalDateTime.of(2024, 3, 20, 10, 0);
         LocalDateTime endDateTime = LocalDateTime.of(2024, 3, 20, 11, 0);
@@ -96,7 +96,7 @@ class AgendaControllerTest {
         // 准备测试数据
         String[] command = {
             "add", "testUser", "password123", "participant",
-            "invalid-date", "10:00", "2024-03-20", "11:00", "测试会议"
+            "invalid-date 10:00", "2024-03-20 11:00", "测试会议"
         };
 
         when(view.parseDateTime("invalid-date 10:00")).thenThrow(new IllegalArgumentException());
@@ -105,7 +105,7 @@ class AgendaControllerTest {
         controller.handleAdd(command);
 
         // 验证结果
-        verify(view).showError("日期格式错误，请使用yyyy-MM-dd HH:mm格式");
+        verify(view).showError("时间格式错误，请使用正确的格式：yyyy-MM-dd HH:mm");
     }
 
     @Test
@@ -113,7 +113,7 @@ class AgendaControllerTest {
         // 准备测试数据
         String[] command = {
             "query", "testUser", "password123",
-            "2024-03-20", "10:00", "2024-03-20", "11:00"
+            "2024-03-20 10:00", "2024-03-20 11:00"
         };
         LocalDateTime startDateTime = LocalDateTime.of(2024, 3, 20, 10, 0);
         LocalDateTime endDateTime = LocalDateTime.of(2024, 3, 20, 11, 0);
