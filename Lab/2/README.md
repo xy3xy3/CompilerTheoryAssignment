@@ -43,7 +43,7 @@ batch batch.sh
 mvn test
 ```
 
-测试结果如图，具体测试内容参加`design`文件。
+测试结果如图，具体测试内容可参考`design`文件，主要针对Controller和Service层进行测试。
 
 ![](./img/auto_test.png)
 
