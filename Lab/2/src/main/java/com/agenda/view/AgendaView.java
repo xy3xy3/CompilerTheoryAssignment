@@ -118,6 +118,7 @@ public class AgendaView {
         System.out.println("query <username> <password> <start> <end> - 查询会议");
         System.out.println("delete <username> <password> <meetingId> - 删除会议");
         System.out.println("clear <username> <password> - 清除所有会议");
+        System.out.println("batch <fileName> - 批处理命令文件");
         System.out.println("quit - 退出系统");
         System.out.println("\n时间格式：yyyy-MM-dd HH:mm");
     }

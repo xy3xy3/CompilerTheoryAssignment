@@ -27,6 +27,16 @@ query user1 1 2025-03-20 10:00 2025-03-20 11:00
 
 ![](./img/human_test.png)
 
+## 执行脚本测试
+
+```shell
+batch batch.sh
+```
+
+成功识别对应脚本并逐行执行
+
+![](./img/batch.png)
+
 ## 自动测试
 
 ```shell

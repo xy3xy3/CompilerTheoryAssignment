@@ -5,6 +5,9 @@ import com.agenda.service.AgendaService;
 import com.agenda.view.AgendaView;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * 议程管理系统的控制器类
@@ -49,6 +52,9 @@ public class AgendaController {
                     break;
                 case "clear":
                     handleClear(command);
+                    break;
+                case "batch":
+                    handleBatch(command);
                     break;
                 case "quit":
                     return;
@@ -220,5 +226,77 @@ public class AgendaController {
      */
     public void handleInvalidCommand(String[] command) {
         view.showHelp();
+    }
+
+    /**
+     * 处理批处理命令
+     *
+     * @param command 包含命令和参数的字符串数组
+     */
+    public void handleBatch(String[] command) {
+        if (command.length != 2) {
+            view.showError("批处理命令格式错误");
+            return;
+        }
+
+        String fileName = command[1];
+        List<String> lines = readFile(fileName);
+
+        if (lines == null) {
+            return;
+        }
+
+        view.showSuccess("开始执行批处理命令文件: " + fileName);
+
+        for (String line : lines) {
+            // 跳过空行
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+
+            // 分割命令行
+            String[] batchCommand = line.trim().split("\\s+");
+
+            // 显示正在执行的命令
+            System.out.println("执行命令: " + line);
+
+            // 处理批处理中的命令，但忽略quit和batch命令
+            switch (batchCommand[0].toLowerCase()) {
+                case "register":
+                    handleRegister(batchCommand);
+                    break;
+                case "add":
+                    handleAdd(batchCommand);
+                    break;
+                case "query":
+                    handleQuery(batchCommand);
+                    break;
+                case "delete":
+                    handleDelete(batchCommand);
+                    break;
+                case "clear":
+                    handleClear(batchCommand);
+                    break;
+                default:
+                    view.showError("不支持的批处理命令: " + batchCommand[0]);
+            }
+        }
+
+        view.showSuccess("批处理命令文件执行完成: " + fileName);
+    }
+
+    /**
+     * 读取文件内容
+     *
+     * @param fileName 文件名
+     * @return 文件内容的行列表，如果文件不存在或无法读取则返回null
+     */
+    private List<String> readFile(String fileName) {
+        try {
+            return Files.readAllLines(Paths.get(fileName));
+        } catch (IOException e) {
+            view.showError("无法读取文件: " + fileName);
+            return null;
+        }
     }
 }
