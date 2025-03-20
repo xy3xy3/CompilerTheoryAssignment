@@ -1,1 +1,6 @@
+com\agenda\service\AgendaService.class
 com\agenda\App.class
+com\agenda\model\Meeting.class
+com\agenda\controller\AgendaController.class
+com\agenda\model\User.class
+com\agenda\view\AgendaView.class
