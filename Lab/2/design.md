@@ -439,33 +439,149 @@ public class App {
 
 **职责**：测试服务层逻辑，包括用户注册、会议添加、查询、删除和清空等功能。
 
-**示例代码**：
+#### 测试用例与代码示例：
+
+- **测试用户注册功能**
 ```java
 @Test
-public void testAddMeetingSuccess() {
-    assertTrue(service.addMeeting(...));
+public void testRegisterUser() {
+    boolean result = agendaService.registerUser("user1", "pass1");
+    assertTrue(result, "第一次注册应成功");
+
+    // 重复注册相同用户名应失败
+    result = agendaService.registerUser("user1", "pass2");
+    assertFalse(result, "重复注册同一用户名应失败");
 }
 ```
 
-### AgendaControllerTest 类
-
-**职责**：测试控制层逻辑，采用Mock对象测试与视图层、服务层的交互。
-
-**示例代码**：
+- **测试会议添加成功**
 ```java
 @Test
-public void testHandleAdd_Success() {
+public void testAddMeetingSuccess() {
+    agendaService.registerUser("user1", "pass1");
+    agendaService.registerUser("user2", "pass2");
+
+    LocalDateTime startTime = LocalDateTime.of(2025, 3, 21, 10, 0);
+    LocalDateTime endTime = LocalDateTime.of(2025, 3, 21, 11, 0);
+    boolean addResult = agendaService.addMeeting("user1", "pass1", "user2", "Meeting1", startTime, endTime);
+    assertTrue(addResult, "会议添加应成功");
+}
+```
+
+- **测试会议时间冲突**
+```java
+@Test
+public void testAddMeetingTimeConflict() {
+    agendaService.registerUser("user1", "pass1");
+    agendaService.registerUser("user2", "pass2");
+
+    LocalDateTime startTime1 = LocalDateTime.of(2025, 3, 21, 10, 0);
+    LocalDateTime endTime1 = LocalDateTime.of(2025, 3, 21, 11, 0);
+    agendaService.addMeeting("user1", "pass1", "user2", "Meeting1", startTime1, endTime1);
+
+    LocalDateTime startTime2 = LocalDateTime.of(2025, 3, 21, 10, 30);
+    LocalDateTime endTime2 = LocalDateTime.of(2025, 3, 21, 11, 30);
+    boolean conflictResult = agendaService.addMeeting("user1", "pass1", "user2", "Meeting2", startTime2, endTime2);
+    assertFalse(conflictResult, "有时间冲突的会议应添加失败");
+}
+```
+
+- **测试会议删除**
+```java
+@Test
+public void testDeleteMeeting() {
+    agendaService.registerUser("user1", "pass1");
+    agendaService.registerUser("user2", "pass2");
+
+    LocalDateTime startTime = LocalDateTime.of(2025, 3, 22, 9, 0);
+    LocalDateTime endTime = LocalDateTime.of(2025, 3, 22, 10, 0);
+    agendaService.addMeeting("user1", "pass1", "user2", "MeetingToDelete", startTime, endTime);
+
+    List<Meeting> meetings = agendaService.queryMeetings("user1", "pass1", startTime.minusHours(1), endTime.plusHours(1));
+    String meetingId = meetings.get(0).getId();
+
+    boolean deleteResult = agendaService.deleteMeeting("user1", "pass1", meetingId);
+    assertTrue(deleteResult, "删除会议应成功");
+}
+```
+
+- **测试清空会议**
+```java
+@Test
+public void testClearMeetings() {
+    agendaService.registerUser("user1", "pass1");
+    agendaService.registerUser("user2", "pass2");
+
+    LocalDateTime startTime1 = LocalDateTime.of(2025, 3, 23, 14, 0);
+    LocalDateTime endTime1 = LocalDateTime.of(2025, 3, 23, 15, 0);
+    agendaService.addMeeting("user1", "pass1", "user2", "Meeting1", startTime1, endTime1);
+
+    agendaService.clearMeetings("user1", "pass1");
+
+    List<Meeting> meetings = agendaService.queryMeetings("user1", "pass1", startTime1.minusDays(1), endTime1.plusDays(1));
+    assertTrue(meetings.isEmpty(), "所有会议应被清空");
+}
+```
+
+
+### AgendaControllerTest 类
+
+**职责**：测试控制层命令解析与分发，使用Mockito模拟service和view交互。
+
+#### 主要测试内容与代码示例：
+
+- **测试用户注册命令**
+```java
+@Test
+void testHandleRegister_Success() {
+    String[] command = {"register", "testUser", "password123"};
+    when(service.registerUser("testUser", "password123")).thenReturn(true);
+    controller.handleRegister(command);
+    verify(view).showSuccess("用户注册成功");
+}
+```
+
+- **测试会议添加成功**
+```java
+@Test
+void testHandleAdd_Success() {
+    String[] command = {"add", "testUser", "password123", "participant", "2024-03-20 10:00", "2024-03-20 11:00", "会议标题"};
+    LocalDateTime start = LocalDateTime.of(2024, 3, 20, 10, 0);
+    LocalDateTime end = LocalDateTime.of(2024, 3, 20, 11, 0);
+
+    when(view.parseDateTime("2024-03-20 10:00")).thenReturn(start);
+    when(view.parseDateTime("2024-03-20 11:00")).thenReturn(end);
+    when(service.addMeeting("testUser", "password123", "participant", "会议标题", start, end)).thenReturn(true);
+
+    controller.handleAdd(command);
     verify(view).showSuccess("会议添加成功");
 }
 ```
 
----
+- **测试时间格式错误处理**
+```java
+@Test
+void testHandleAdd_InvalidDateTime() {
+    String[] command = {"add", "testUser", "password123", "participant", "invalid", "2024-03-20 11:00", "会议标题"};
+    when(view.parseDateTime("invalid")).thenThrow(new IllegalArgumentException());
+    controller.handleAdd(command);
+    verify(view).showError("时间格式错误，请使用正确的格式：yyyy-MM-dd HH:mm");
+}
+```
 
-## 设计亮点
+- **测试会议查询与删除**
+```java
+@Test
+void testHandleQuery_Success() {
+    String[] command = {"query", "testUser", "password123", "2024-03-20 10:00", "2024-03-20 11:00"};
+    LocalDateTime start = LocalDateTime.of(2024, 3, 20, 10, 0);
+    LocalDateTime end = LocalDateTime.of(2024, 3, 20, 11, 0);
+    Meeting meeting = new Meeting("会议", "testUser", "participant", start, end);
+    when(view.parseDateTime("2024-03-20 10:00")).thenReturn(start);
+    when(view.parseDateTime("2024-03-20 11:00")).thenReturn(end);
+    when(service.queryMeetings("testUser", "password123", start, end)).thenReturn(Arrays.asList(meeting));
 
-- MVC分层设计，高内聚低耦合
-- 单元测试覆盖全面
-- 时间冲突逻辑严谨
-- 易扩展的架构设计
-
-## 系统架构图
+    controller.handleQuery(command);
+    verify(view).showMeetings(Arrays.asList(meeting));
+}
+```
