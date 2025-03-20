@@ -12,11 +12,31 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * AgendaService 单元测试类
+ * AgendaService单元测试类。
+ *
+ * <p>本测试类用于验证{@link AgendaService}类的各项功能，包括：
+ * <ul>
+ *   <li>用户注册</li>
+ *   <li>会议添加</li>
+ *   <li>会议查询</li>
+ *   <li>会议删除</li>
+ *   <li>清除所有会议</li>
+ * </ul>
+ *
+ * <p>每个测试方法都独立执行，通过{@link BeforeEach}注解确保每次测试前都有一个新的AgendaService实例。
+ *
+ * @see AgendaService
+ * @see Meeting
  */
 class AgendaServiceTest {
+    /** 测试用的AgendaService实例 */
     private AgendaService agendaService;
 
+    /**
+     * 在每个测试方法执行前设置测试环境。
+     *
+     * <p>创建一个新的AgendaService实例，确保每个测试方法都从干净的状态开始。
+     */
     @BeforeEach
     public void setUp() {
         // 每个测试方法执行前都会初始化一个新的 AgendaService 实例
@@ -24,9 +44,13 @@ class AgendaServiceTest {
     }
 
     /**
-     * 测试用户注册功能：
-     * - 注册新用户成功
-     * - 注册相同用户名失败
+     * 测试用户注册功能。
+     *
+     * <p>测试场景：
+     * <ol>
+     *   <li>注册新用户，预期结果：成功</li>
+     *   <li>使用已存在的用户名再次注册，预期结果：失败</li>
+     * </ol>
      */
     @Test
     public void testRegisterUser() {
@@ -38,9 +62,20 @@ class AgendaServiceTest {
     }
 
     /**
-     * 测试正常添加会议：
-     * - 两个用户均已注册后，添加会议成功
-     * - 查询时，双方都能查询到该会议
+     * 测试成功添加会议的场景。
+     *
+     * <p>测试步骤：
+     * <ol>
+     *   <li>注册两个用户</li>
+     *   <li>添加一个会议，由user1邀请user2</li>
+     *   <li>分别查询两位用户的会议列表</li>
+     * </ol>
+     *
+     * <p>预期结果：
+     * <ul>
+     *   <li>会议添加成功</li>
+     *   <li>两位用户的会议列表中都能查到这个会议</li>
+     * </ul>
      */
     @Test
     public void testAddMeetingSuccess() {
@@ -61,8 +96,22 @@ class AgendaServiceTest {
     }
 
     /**
-     * 测试添加会议时时间冲突的情况：
-     * - 当同一用户或其预约方已有重叠会议时，添加会议应失败
+     * 测试添加会议时的时间冲突情况。
+     *
+     * <p>测试步骤：
+     * <ol>
+     *   <li>注册两个用户</li>
+     *   <li>成功添加第一个会议</li>
+     *   <li>尝试添加与第一个会议时间重叠的第二个会议</li>
+     * </ol>
+     *
+     * <p>预期结果：
+     * <ul>
+     *   <li>第一个会议添加成功</li>
+     *   <li>第二个会议因时间冲突而添加失败</li>
+     * </ul>
+     *
+     * <p>时间冲突定义：当两个会议的时间范围有任何重叠时，视为冲突。
      */
     @Test
     public void testAddMeetingTimeConflict() {
@@ -82,8 +131,22 @@ class AgendaServiceTest {
     }
 
     /**
-     * 测试删除会议功能：
-     * - 添加会议后，删除指定会议，双方的会议列表中均应删除该会议
+     * 测试删除指定会议的功能。
+     *
+     * <p>测试步骤：
+     * <ol>
+     *   <li>注册两个用户</li>
+     *   <li>添加一个会议</li>
+     *   <li>查询会议并获取会议ID</li>
+     *   <li>删除指定ID的会议</li>
+     *   <li>验证两个用户的会议列表中都不再有该会议</li>
+     * </ol>
+     *
+     * <p>预期结果：
+     * <ul>
+     *   <li>删除会议操作成功</li>
+     *   <li>两个用户的会议列表均为空</li>
+     * </ul>
      */
     @Test
     public void testDeleteMeeting() {
@@ -112,8 +175,23 @@ class AgendaServiceTest {
     }
 
     /**
-     * 测试清除所有会议功能：
-     * - 添加多个会议后，清除某个用户所有会议，同时对方的会议列表也应被清除
+     * 测试清除用户所有会议的功能。
+     *
+     * <p>测试步骤：
+     * <ol>
+     *   <li>注册两个用户</li>
+     *   <li>添加两个不同时间段的会议</li>
+     *   <li>清除user1的所有会议</li>
+     *   <li>分别查询两个用户在相关时间段的会议</li>
+     * </ol>
+     *
+     * <p>预期结果：
+     * <ul>
+     *   <li>清除会议操作成功</li>
+     *   <li>两个用户的会议列表均为空</li>
+     * </ul>
+     *
+     * <p>注意：当发起者清除其会议时，会议的所有参与者对应的会议记录也应被删除。
      */
     @Test
     public void testClearMeetings() {

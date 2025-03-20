@@ -1,0 +1,89 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "Model" {
+    class User {
+        - username: String
+        - password: String
+        - meetings: List<Meeting>
+        + User(username: String, password: String)
+        + getUsername(): String
+        + getPassword(): String
+        + getMeetings(): List<Meeting>
+        + addMeeting(meeting: Meeting): void
+        + removeMeeting(meeting: Meeting): void
+        + clearMeetings(): void
+    }
+
+    class Meeting {
+        - id: String
+        - title: String
+        - organizer: String
+        - participant: String
+        - startTime: LocalDateTime
+        - endTime: LocalDateTime
+        + Meeting(title: String, organizer: String, participant: String, startTime: LocalDateTime, endTime: LocalDateTime)
+        + getId(): String
+        + getTitle(): String
+        + getOrganizer(): String
+        + getParticipant(): String
+        + getStartTime(): LocalDateTime
+        + getEndTime(): LocalDateTime
+        + overlaps(other: Meeting): boolean
+    }
+}
+
+package "Service" {
+    class AgendaService {
+        - users: Map<String, User>
+        + AgendaService()
+        + registerUser(username: String, password: String): boolean
+        + addMeeting(organizer: String, password: String, participant: String, title: String, startTime: LocalDateTime, endTime: LocalDateTime): boolean
+        + queryMeetings(username: String, password: String, startTime: LocalDateTime, endTime: LocalDateTime): List<Meeting>
+        + deleteMeeting(username: String, password: String, meetingId: String): boolean
+        + clearMeetings(username: String, password: String): boolean
+    }
+}
+
+package "View" {
+    class AgendaView {
+        - scanner: Scanner
+        + AgendaView()
+        + setScanner(scanner: Scanner): void
+        + showPrompt(): void
+        + readCommand(): String[]
+        + showWelcome(): void
+        + showError(message: String): void
+        + showSuccess(message: String): void
+        + showMeetings(meetings: List<Meeting>): void
+        + parseDateTime(dateTimeStr: String): LocalDateTime
+        + showHelp(): void
+    }
+}
+
+package "Controller" {
+    class AgendaController {
+        - service: AgendaService
+        - view: AgendaView
+        + AgendaController()
+        + start(): void
+        + handleRegister(command: String[]): void
+        + handleAdd(command: String[]): void
+        + handleQuery(command: String[]): void
+        + handleDelete(command: String[]): void
+        + handleClear(command: String[]): void
+        + handleInvalidCommand(command: String[]): void
+    }
+}
+
+class App {
+    + main(args: String[]): void
+}
+
+App --> AgendaController : 创建并调用 start()
+AgendaController --> AgendaService : 使用服务层逻辑
+AgendaController --> AgendaView : 调用视图展示和输入
+AgendaService --> User : 用户管理
+User "1" *-- "*" Meeting : 包含会议
+
+@enduml

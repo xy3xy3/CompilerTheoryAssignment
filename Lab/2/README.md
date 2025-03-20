@@ -1,6 +1,16 @@
 
 
+# 运行方法
 
+使用封装好的`run.bat`文件进行编译和运行
+
+```shell
+./run.bat
+```
+
+
+
+# 测试方法
 
 ## 人为简单测试
 
@@ -26,3 +36,15 @@ mvn test
 测试结果如图，具体测试内容参加`design`文件。
 
 ![](./img/auto_test.png)
+
+# 文档生成
+
+本次实验代码使用了`javadoc`生成文档，具体命令如下：
+
+```shell
+javadoc -d docs -sourcepath src/main/java -subpackages com.agenda
+```
+
+执行后会在`docs`目录下生成文档，可使用VsCode的`Live Server`插件打开，具体效果如图
+
+![](./img/docs.png)
