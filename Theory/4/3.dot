@@ -3,13 +3,13 @@
 digraph LPrime {
     rankdir=LR;
     // L' -> , S L' | ε
+    7 [shape=circle, label="7"];
+    8 [shape=circle, label="8"];
     9 [shape=circle, label="9"];
-    10 [shape=circle, label="10"];
-    11 [shape=circle, label="11"];
-    12 [shape=doublecircle, label="12"];
+    10 [shape=doublecircle, label="10"];
 
-    9 -> 10 [label=","];
-    10 -> 11 [label="S"];
-    11 -> 12 [label="L'"];
-    9 -> 12 [label="ε"];
+    7 -> 8 [label=","];
+    8 -> 9 [label="S"];
+    9 -> 10 [label="L'"];
+    7 -> 10 [label="ε"];
 }
