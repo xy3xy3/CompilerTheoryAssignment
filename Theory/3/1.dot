@@ -11,7 +11,7 @@ digraph NFA_final {
   B -> C [label="1"];
   C -> B [label="ε"];
   C -> D [label="ε"];
-  D -> A [label="ε"];
+  A -> D [label="ε"];
   # (0 | 01)*
   D -> E [label="ε"];
   # 右边分支上面
