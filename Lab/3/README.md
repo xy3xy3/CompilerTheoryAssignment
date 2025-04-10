@@ -42,11 +42,13 @@ mvn test
 
 # 文档生成
 
-本次实验代码使用了 `javadoc`生成文档，具体命令如下：
+本次实验代码使用了 `javadoc` 生成文档，具体命令如下：
 
 ```shell
 javadoc -d docs -sourcepath src/main/java -subpackages com.compiler
 ```
+
+或者直接运行 `doc.bat` 脚本。
 
 之后用浏览器端口对应文档可看到相关内容
 
